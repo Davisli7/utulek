@@ -1,0 +1,17 @@
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Infrastructure\bin\Debug\net9.0\Utulek1.Infrastructure.deps.json
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Infrastructure\bin\Debug\net9.0\Utulek1.Infrastructure.runtimeconfig.json
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Infrastructure\bin\Debug\net9.0\Utulek1.Infrastructure.dll
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Infrastructure\bin\Debug\net9.0\Utulek1.Infrastructure.pdb
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Infrastructure\bin\Debug\net9.0\Utulek1.Domain.dll
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Infrastructure\bin\Debug\net9.0\Utulek1.Domain.pdb
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Infrastructure\obj\Debug\net9.0\Utulek1.Infrastructure.csproj.AssemblyReference.cache
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Infrastructure\obj\Debug\net9.0\Utulek1.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Infrastructure\obj\Debug\net9.0\Utulek1.Infrastructure.AssemblyInfoInputs.cache
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Infrastructure\obj\Debug\net9.0\Utulek1.Infrastructure.AssemblyInfo.cs
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Infrastructure\obj\Debug\net9.0\Utulek1.Infrastructure.csproj.CoreCompileInputs.cache
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Infrastructure\obj\Debug\net9.0\Utulek1..444EB6BD.Up2Date
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Infrastructure\obj\Debug\net9.0\Utulek1.Infrastructure.dll
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Infrastructure\obj\Debug\net9.0\refint\Utulek1.Infrastructure.dll
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Infrastructure\obj\Debug\net9.0\Utulek1.Infrastructure.pdb
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Infrastructure\obj\Debug\net9.0\Utulek1.Infrastructure.genruntimeconfig.cache
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Infrastructure\obj\Debug\net9.0\ref\Utulek1.Infrastructure.dll

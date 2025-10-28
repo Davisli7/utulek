@@ -1,0 +1,259 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1.Infrastructure\\Migrations\\20251027202416_PrvniMigrace3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Utulek1.Infrastructure\\Migrations\\20251027202416_PrvniMigrace3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1DE9CD3E-8C1A-47F1-A5AB-6A48A0CD863D}|Utulek1.Domain\\Utulek1.Domain.csproj|c:\\vyska\\web\\ukol_utulek\\utulek1\\utulek1.domain\\entities\\adoptionrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1DE9CD3E-8C1A-47F1-A5AB-6A48A0CD863D}|Utulek1.Domain\\Utulek1.Domain.csproj|solutionrelative:utulek1.domain\\entities\\adoptionrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6C4C7A93-9146-4B25-8CF9-3CCAE3D3A6EB}|Utulek1.Infrastructure\\Utulek1.Infrastructure.csproj|c:\\vyska\\web\\ukol_utulek\\utulek1\\utulek1.infrastructure\\utulekdbcontext .cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6C4C7A93-9146-4B25-8CF9-3CCAE3D3A6EB}|Utulek1.Infrastructure\\Utulek1.Infrastructure.csproj|solutionrelative:utulek1.infrastructure\\utulekdbcontext .cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B83B7E21-94BB-4C7B-B15A-8D43BFA17FAC}|Utulek1\\Utulek1.csproj|c:\\vyska\\web\\ukol_utulek\\utulek1\\utulek1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B83B7E21-94BB-4C7B-B15A-8D43BFA17FAC}|Utulek1\\Utulek1.csproj|solutionrelative:utulek1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B83B7E21-94BB-4C7B-B15A-8D43BFA17FAC}|Utulek1\\Utulek1.csproj|c:\\vyska\\web\\ukol_utulek\\utulek1\\utulek1\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{B83B7E21-94BB-4C7B-B15A-8D43BFA17FAC}|Utulek1\\Utulek1.csproj|solutionrelative:utulek1\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EFB995B9-AAAE-4B76-B1AF-CF6F08CD2C38}|Utulek1.Application\\Utulek1.Application.csproj|c:\\vyska\\web\\ukol_utulek\\utulek1\\utulek1.application\\services\\animalservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EFB995B9-AAAE-4B76-B1AF-CF6F08CD2C38}|Utulek1.Application\\Utulek1.Application.csproj|solutionrelative:utulek1.application\\services\\animalservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1DE9CD3E-8C1A-47F1-A5AB-6A48A0CD863D}|Utulek1.Domain\\Utulek1.Domain.csproj|c:\\vyska\\web\\ukol_utulek\\utulek1\\utulek1.domain\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1DE9CD3E-8C1A-47F1-A5AB-6A48A0CD863D}|Utulek1.Domain\\Utulek1.Domain.csproj|solutionrelative:utulek1.domain\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1DE9CD3E-8C1A-47F1-A5AB-6A48A0CD863D}|Utulek1.Domain\\Utulek1.Domain.csproj|c:\\vyska\\web\\ukol_utulek\\utulek1\\utulek1.domain\\entities\\breed.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1DE9CD3E-8C1A-47F1-A5AB-6A48A0CD863D}|Utulek1.Domain\\Utulek1.Domain.csproj|solutionrelative:utulek1.domain\\entities\\breed.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6C4C7A93-9146-4B25-8CF9-3CCAE3D3A6EB}|Utulek1.Infrastructure\\Utulek1.Infrastructure.csproj|c:\\vyska\\web\\ukol_utulek\\utulek1\\utulek1.infrastructure\\migrations\\20251027193156_prvnimigrace.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6C4C7A93-9146-4B25-8CF9-3CCAE3D3A6EB}|Utulek1.Infrastructure\\Utulek1.Infrastructure.csproj|solutionrelative:utulek1.infrastructure\\migrations\\20251027193156_prvnimigrace.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6C4C7A93-9146-4B25-8CF9-3CCAE3D3A6EB}|Utulek1.Infrastructure\\Utulek1.Infrastructure.csproj|c:\\vyska\\web\\ukol_utulek\\utulek1\\utulek1.infrastructure\\migrations\\20251027193500_prvnimigrace1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6C4C7A93-9146-4B25-8CF9-3CCAE3D3A6EB}|Utulek1.Infrastructure\\Utulek1.Infrastructure.csproj|solutionrelative:utulek1.infrastructure\\migrations\\20251027193500_prvnimigrace1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1.Infrastructure\\Migrations\\20251027192238_PrvniMigrace.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Utulek1.Infrastructure\\Migrations\\20251027192238_PrvniMigrace.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6C4C7A93-9146-4B25-8CF9-3CCAE3D3A6EB}|Utulek1.Infrastructure\\Utulek1.Infrastructure.csproj|c:\\vyska\\web\\ukol_utulek\\utulek1\\utulek1.infrastructure\\repositories\\animalrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6C4C7A93-9146-4B25-8CF9-3CCAE3D3A6EB}|Utulek1.Infrastructure\\Utulek1.Infrastructure.csproj|solutionrelative:utulek1.infrastructure\\repositories\\animalrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EFB995B9-AAAE-4B76-B1AF-CF6F08CD2C38}|Utulek1.Application\\Utulek1.Application.csproj|c:\\vyska\\web\\ukol_utulek\\utulek1\\utulek1.application\\utulek1.application.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{EFB995B9-AAAE-4B76-B1AF-CF6F08CD2C38}|Utulek1.Application\\Utulek1.Application.csproj|solutionrelative:utulek1.application\\utulek1.application.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B83B7E21-94BB-4C7B-B15A-8D43BFA17FAC}|Utulek1\\Utulek1.csproj|c:\\vyska\\web\\ukol_utulek\\utulek1\\utulek1\\utulek1.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{B83B7E21-94BB-4C7B-B15A-8D43BFA17FAC}|Utulek1\\Utulek1.csproj|solutionrelative:utulek1\\utulek1.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "20251027202416_PrvniMigrace3.cs",
+              "DocumentMoniker": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1.Infrastructure\\Migrations\\20251027202416_PrvniMigrace3.cs",
+              "RelativeDocumentMoniker": "Utulek1.Infrastructure\\Migrations\\20251027202416_PrvniMigrace3.cs",
+              "ToolTip": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1.Infrastructure\\Migrations\\20251027202416_PrvniMigrace3.cs",
+              "RelativeToolTip": "Utulek1.Infrastructure\\Migrations\\20251027202416_PrvniMigrace3.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T20:24:16.617Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "20251027193500_PrvniMigrace1.cs",
+              "DocumentMoniker": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1.Infrastructure\\Migrations\\20251027193500_PrvniMigrace1.cs",
+              "RelativeDocumentMoniker": "Utulek1.Infrastructure\\Migrations\\20251027193500_PrvniMigrace1.cs",
+              "ToolTip": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1.Infrastructure\\Migrations\\20251027193500_PrvniMigrace1.cs",
+              "RelativeToolTip": "Utulek1.Infrastructure\\Migrations\\20251027193500_PrvniMigrace1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T19:35:00.202Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1\\appsettings.json",
+              "RelativeDocumentMoniker": "Utulek1\\appsettings.json",
+              "ToolTip": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1\\appsettings.json",
+              "RelativeToolTip": "Utulek1\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-10-27T19:31:18.649Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UtulekDbContext .cs",
+              "DocumentMoniker": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1.Infrastructure\\UtulekDbContext .cs",
+              "RelativeDocumentMoniker": "Utulek1.Infrastructure\\UtulekDbContext .cs",
+              "ToolTip": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1.Infrastructure\\UtulekDbContext .cs",
+              "RelativeToolTip": "Utulek1.Infrastructure\\UtulekDbContext .cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T15:26:22.554Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AdoptionRequest.cs",
+              "DocumentMoniker": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1.Domain\\Entities\\AdoptionRequest.cs",
+              "RelativeDocumentMoniker": "Utulek1.Domain\\Entities\\AdoptionRequest.cs",
+              "ToolTip": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1.Domain\\Entities\\AdoptionRequest.cs",
+              "RelativeToolTip": "Utulek1.Domain\\Entities\\AdoptionRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T15:46:08.036Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1.Domain\\Entities\\User.cs",
+              "RelativeDocumentMoniker": "Utulek1.Domain\\Entities\\User.cs",
+              "ToolTip": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1.Domain\\Entities\\User.cs",
+              "RelativeToolTip": "Utulek1.Domain\\Entities\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T19:42:11.442Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1\\Program.cs",
+              "RelativeDocumentMoniker": "Utulek1\\Program.cs",
+              "ToolTip": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1\\Program.cs",
+              "RelativeToolTip": "Utulek1\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T15:25:33.745Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "20251027193156_PrvniMigrace.cs",
+              "DocumentMoniker": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1.Infrastructure\\Migrations\\20251027193156_PrvniMigrace.cs",
+              "RelativeDocumentMoniker": "Utulek1.Infrastructure\\Migrations\\20251027193156_PrvniMigrace.cs",
+              "ToolTip": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1.Infrastructure\\Migrations\\20251027193156_PrvniMigrace.cs",
+              "RelativeToolTip": "Utulek1.Infrastructure\\Migrations\\20251027193156_PrvniMigrace.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T19:31:57.128Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "20251027192238_PrvniMigrace.cs",
+              "DocumentMoniker": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1.Infrastructure\\Migrations\\20251027192238_PrvniMigrace.cs",
+              "RelativeDocumentMoniker": "Utulek1.Infrastructure\\Migrations\\20251027192238_PrvniMigrace.cs",
+              "ToolTip": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1.Infrastructure\\Migrations\\20251027192238_PrvniMigrace.cs",
+              "RelativeToolTip": "Utulek1.Infrastructure\\Migrations\\20251027192238_PrvniMigrace.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T19:22:38.253Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Breed.cs",
+              "DocumentMoniker": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1.Domain\\Entities\\Breed.cs",
+              "RelativeDocumentMoniker": "Utulek1.Domain\\Entities\\Breed.cs",
+              "ToolTip": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1.Domain\\Entities\\Breed.cs",
+              "RelativeToolTip": "Utulek1.Domain\\Entities\\Breed.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T19:41:18.386Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AnimalService.cs",
+              "DocumentMoniker": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1.Application\\Services\\AnimalService.cs",
+              "RelativeDocumentMoniker": "Utulek1.Application\\Services\\AnimalService.cs",
+              "ToolTip": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1.Application\\Services\\AnimalService.cs",
+              "RelativeToolTip": "Utulek1.Application\\Services\\AnimalService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T20:10:50.317Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "AnimalRepository.cs",
+              "DocumentMoniker": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1.Infrastructure\\Repositories\\AnimalRepository.cs",
+              "RelativeDocumentMoniker": "Utulek1.Infrastructure\\Repositories\\AnimalRepository.cs",
+              "ToolTip": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1.Infrastructure\\Repositories\\AnimalRepository.cs",
+              "RelativeToolTip": "Utulek1.Infrastructure\\Repositories\\AnimalRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T15:25:29.745Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Utulek1.Application.csproj",
+              "DocumentMoniker": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1.Application\\Utulek1.Application.csproj",
+              "RelativeDocumentMoniker": "Utulek1.Application\\Utulek1.Application.csproj",
+              "ToolTip": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1.Application\\Utulek1.Application.csproj",
+              "RelativeToolTip": "Utulek1.Application\\Utulek1.Application.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-10-26T23:35:11.101Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Utulek1.csproj",
+              "DocumentMoniker": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1\\Utulek1.csproj",
+              "RelativeDocumentMoniker": "Utulek1\\Utulek1.csproj",
+              "ToolTip": "C:\\vyska\\web\\Ukol_Utulek\\Utulek1\\Utulek1\\Utulek1.csproj",
+              "RelativeToolTip": "Utulek1\\Utulek1.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-10-26T23:35:01.529Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

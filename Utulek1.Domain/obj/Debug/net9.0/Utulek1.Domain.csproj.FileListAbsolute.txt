@@ -1,0 +1,11 @@
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Domain\bin\Debug\net9.0\Utulek1.Domain.deps.json
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Domain\bin\Debug\net9.0\Utulek1.Domain.dll
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Domain\bin\Debug\net9.0\Utulek1.Domain.pdb
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Domain\obj\Debug\net9.0\Utulek1.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Domain\obj\Debug\net9.0\Utulek1.Domain.AssemblyInfoInputs.cache
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Domain\obj\Debug\net9.0\Utulek1.Domain.AssemblyInfo.cs
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Domain\obj\Debug\net9.0\Utulek1.Domain.csproj.CoreCompileInputs.cache
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Domain\obj\Debug\net9.0\Utulek1.Domain.dll
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Domain\obj\Debug\net9.0\refint\Utulek1.Domain.dll
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Domain\obj\Debug\net9.0\Utulek1.Domain.pdb
+C:\vyska\web\Ukol_Utulek\Utulek1\Utulek1.Domain\obj\Debug\net9.0\ref\Utulek1.Domain.dll
