@@ -8,18 +8,28 @@ using System.Threading.Tasks;
 
 namespace Utulek1.Domain.Entities
 {
-    [Table(nameof(AdoptionRequest))]
     public class AdoptionRequest
     {
         [Key]
-        public int RequestID { get; set; } 
+        public int RequestID { get; set; }
+
+        [ForeignKey("Animal")]
         public int AnimalID { get; set; }
-        public Animal Animal { get; set; }
+
+        [ForeignKey("User")]
         public int UserID { get; set; }
-        public User User { get; set; }
+
+        [Required]
         public DateTime RequestDate { get; set; }
-        public string Status { get; set; } 
-        public string Message { get; set; }
+
+        [Required, StringLength(20)]
+        public string Status { get; set; }
+
+        [StringLength(500)]
+        public string? Message { get; set; }
+
+        public Animal Animal { get; set; }
+        public User User { get; set; }
     }
 
 }
