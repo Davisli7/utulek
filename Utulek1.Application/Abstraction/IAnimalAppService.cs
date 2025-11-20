@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace Utulek1.Application.Abstraction
     public interface IAnimalAppService
     {
         IList<Animal> Select();
-        void Create(Animal animal);
+        void Create(Animal animal, IEnumerable<IFormFile> uploadedFiles);
         bool Delete(int id);
     }
 }

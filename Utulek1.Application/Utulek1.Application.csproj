@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Utulek1.Domain\Utulek1.Domain.csproj" />
     <ProjectReference Include="..\Utulek1.Infrastructure\Utulek1.Infrastructure.csproj" />
   </ItemGroup>

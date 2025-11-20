@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using Utulek1.Application.Abstraction;
+using Utulek1.Application.Implementation;
+using Utulek1.Application.Services;
 using Utulek1.Infrastructure;
 using Utulek1.Infrastructure.Repositories;
-using Utulek1.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,9 @@ var serverVersion = ServerVersion.AutoDetect(connectionString);
 builder.Services.AddDbContext<UtulekDbContext>(
     options => options.UseMySql(connectionString, serverVersion)
 );
+
+builder.Services.AddScoped<IAnimalAppService, AnimalAppService>();
+
 
 WebApplication app = builder.Build();
 
