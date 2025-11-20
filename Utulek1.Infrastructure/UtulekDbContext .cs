@@ -14,7 +14,8 @@ namespace Utulek1.Infrastructure
         public DbSet<Photo> Photos { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<AdoptionRequest> AdoptionRequests { get; set; }
-
+        public DbSet<Carousel> Carousels { get; set; }
+        
 
     }
 }
