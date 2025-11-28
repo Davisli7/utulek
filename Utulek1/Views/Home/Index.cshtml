@@ -1,8 +1,81 @@
-﻿@{
+﻿@using Utulek1.Application.ViewModels
+@using Utulek1.Domain.Entities
+@model CarouselAnimalViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center mb-5">
+    <h1 class="display-4">Útulek - Home page</h1>
 </div>
+
+<!-- Carousel -->
+@if (Model?.Carousels != null && Model.Carousels.Any())
+{
+    <div id="carouselExampleControls" class="carousel slide mb-5" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            @for (int i = 0; i < Model.Carousels.Count; i++)
+            {
+                var item = Model.Carousels[i];
+                <div class="carousel-item @(i == 0 ? "active" : "")">
+                    <img src="@item.ImageSrc" class="d-block w-100" alt="@item.ImageAlt ?? " Carousel image"">
+                </div>
+            }
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+}
+
+<!-- animals -->
+@if (Model?.Animals != null && Model.Animals.Any())
+{
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
+                @foreach (var animal in Model.Animals)
+                {
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- animal image -->
+                            <img class="card-img-top" src="@animal.Photos" alt="@animal.Name ?? " animal image"" />
+
+                            <!-- animal details -->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <h5 class="fw-bolder">@animal.Name</h5>
+                                    <div class="d-flex justify-content-center small text-warning mb-2">
+                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- animal actions -->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center">
+                                    <a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/shop_home.css" asp-append-version="true" />
+}

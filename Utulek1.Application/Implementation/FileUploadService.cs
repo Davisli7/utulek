@@ -8,7 +8,7 @@ using Utulek1.Application.Abstraction;
 
 namespace Utulek1.Application.Implementation
 {
-    internal class FileUploadService : IFileUploadService
+    public class FileUploadService : IFileUploadService
     {
         public string RootPath { get; set; }
 

@@ -10,6 +10,7 @@ namespace Utulek1.Domain.Entities
     [Table(nameof(Carousel))]
     public class Carousel 
     {
+        public int CarouselID { get; set; }
         public string ImageSrc { get; set; }
         public string ImageAlt { get; set; }
     }

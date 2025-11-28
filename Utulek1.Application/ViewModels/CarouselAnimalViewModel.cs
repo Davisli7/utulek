@@ -10,6 +10,6 @@ namespace Utulek1.Application.ViewModels
     public class CarouselAnimalViewModel
     {
         public IList<Carousel>? Carousels { get; set; }
-        public IList<Animal>? Products { get; set; }
+        public IList<Animal>? Animals { get; set; }
     }
 }
