@@ -35,5 +35,17 @@ namespace Utulek1.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(AnimalController.Select));
         }
+
+        public IActionResult Delete(int id)
+        {
+            bool deleted = _animalAppService.Delete(id);
+
+            if (deleted)
+            {
+                return RedirectToAction(nameof(AnimalController.Select));
+            }
+            else
+                return NotFound();
+        }
     }
 }
