@@ -28,14 +28,19 @@ namespace Utulek1.Areas.Admin.Controllers
             return View();
         }
 
+
         [HttpPost]
-        public IActionResult Create(Animal animal, IEnumerable<IFormFile> uploadedFiles)
+        public IActionResult Create(Animal animal)
         {
-            _animalAppService.Create(animal, uploadedFiles);
+            if (ModelState.IsValid)
+            {
+                _animalAppService.Create(animal);
 
-            return RedirectToAction(nameof(AnimalController.Select));
+                return RedirectToAction(nameof(AnimalController.Select));
+            }
+
+            return View(animal);
         }
-
         public IActionResult Delete(int id)
         {
             bool deleted = _animalAppService.Delete(id);
