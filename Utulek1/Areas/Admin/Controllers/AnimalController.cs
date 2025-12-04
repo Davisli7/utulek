@@ -21,5 +21,19 @@ namespace Utulek1.Areas.Admin.Controllers
             IList<Animal> animals = _animalAppService.Select();
             return View(animals);
         }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Animal animal, IEnumerable<IFormFile> uploadedFiles)
+        {
+            _animalAppService.Create(animal, uploadedFiles);
+
+            return RedirectToAction(nameof(AnimalController.Select));
+        }
     }
 }
