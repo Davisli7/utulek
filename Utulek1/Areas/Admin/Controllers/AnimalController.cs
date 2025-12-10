@@ -30,11 +30,11 @@ namespace Utulek1.Areas.Admin.Controllers
 
 
         [HttpPost]
-        public IActionResult Create(Animal animal)
+        public IActionResult Create(Animal animal, IEnumerable<IFormFile> uploadedFiles)
         {
             if (ModelState.IsValid)
             {
-                _animalAppService.Create(animal);
+                _animalAppService.Create(animal, uploadedFiles);
 
                 return RedirectToAction(nameof(AnimalController.Select));
             }
