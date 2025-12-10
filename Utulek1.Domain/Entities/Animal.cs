@@ -37,7 +37,7 @@ namespace Utulek1.Domain.Entities
 
         [ForeignKey("Species")]
         public int SpeciesID { get; set; }
-        public Species Species { get; set; }
+        public Species? Species { get; set; }
 
         public ICollection<Photo>? Photos { get; set; }
         public ICollection<AdoptionRequest>? AdoptionRequests { get; set; }
