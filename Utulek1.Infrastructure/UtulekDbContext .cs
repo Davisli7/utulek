@@ -1,9 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
 using Utulek1.Domain.Entities;
 
 namespace Utulek1.Infrastructure
 {
-    public class UtulekDbContext : DbContext
+
+    public class UtulekDbContext : IdentityDbContext<User, Role, int>
     {
         public UtulekDbContext(DbContextOptions<UtulekDbContext> options)
             : base(options) { }
@@ -12,10 +15,12 @@ namespace Utulek1.Infrastructure
         public DbSet<Breed> Breeds { get; set; }
         public DbSet<Species> Species { get; set; }
         public DbSet<Photo> Photos { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<AdoptionRequest> AdoptionRequests { get; set; }
         public DbSet<Carousel> Carousels { get; set; }
-        
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder); 
+        }
     }
 }

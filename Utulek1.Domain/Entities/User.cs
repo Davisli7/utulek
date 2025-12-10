@@ -4,39 +4,32 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace Utulek1.Domain.Entities
 {
-    public class User
+    public class User : IdentityUser<int>
     {
-        [Key]
-        public int UserID { get; set; }
+        // Vlastnosti Email, PasswordHash, Id, UserName JSOU UŽ UVNITŘ IdentityUser
+        // Proto je sem NEPIŠ.
 
-        [Required]
-        [StringLength(100)]
-        public string FullName { get; set; }
+        // Tvé vlastní vlastnosti:
+        // Otazník 'string?' znamená, že to v databázi může být NULL (nemusí se vyplnit)
 
-        [Required]
-        [StringLength(100)]
-        [EmailAddress]
-        public string Email { get; set; }
+        [StringLength(50)]
+        public string? FirstName { get; set; }
 
-        [Required]
-        public string PasswordHash { get; set; }
-
-        [StringLength(20)]
-        public string? Phone { get; set; }
+        [StringLength(50)]
+        public string? LastName { get; set; }
 
         [StringLength(200)]
         public string? Address { get; set; }
 
-        [Required]
-        [StringLength(20)]
-        public string Role { get; set; }
+        // CreatedAt chceme povinné, ale dáváme mu defaultní hodnotu, 
+        // takže [Required] není třeba (vždy tam něco bude).
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        [Required]
-        public DateTime CreatedAt { get; set; }
-
+        // Navigační vlastnost
         public ICollection<AdoptionRequest>? AdoptionRequests { get; set; }
     }
 }

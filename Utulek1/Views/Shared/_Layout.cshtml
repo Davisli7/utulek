@@ -29,6 +29,31 @@
                             <a class="nav-link text-dark" asp-area="Admin" asp-controller="Animal" asp-action="Select">Animals</a>
                         </li>
                     </ul>
+                    <ul class="navbar-nav ms-auto">
+                        @using Microsoft.AspNetCore.Identity
+                        @using Utulek1.Domain.Entities
+                        @inject SignInManager<User> SignInManager
+                        @inject UserManager<User> UserManager
+
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="#">Ahoj, @UserManager.GetUserName(User)!</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Odhlásit</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Registrace</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Přihlášení</a>
+                            </li>
+                        }
+                    </ul>
                 </div>
             </div>
         </nav>
