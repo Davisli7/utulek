@@ -12,7 +12,7 @@ namespace Utulek1.Domain.Entities
     {
         public int PhotoID { get; set; }
         public int AnimalID { get; set; }
-        public string PhotoURL { get; set; }
+        public required string PhotoURL { get; set; }
         public Animal Animal { get; set; }
     }
 }
