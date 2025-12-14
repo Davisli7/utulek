@@ -18,7 +18,7 @@
                     <th scope="col">@nameof(Animal.Description)</th>
                     <th scope="col">@nameof(Animal.Status)</th>
                     <th scope="col">@nameof(Animal.Photos)</th>
-                    <th scope="col">Delete</th>
+                    <th scope="col">Edit/Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,7 +32,10 @@
                         <td>@animal.Description</td>
                         <td>@animal.Status</td>
                         <td>@animal.Photos.FirstOrDefault()?.PhotoURL</td>
-                        <td><a asp-action="Delete" asp-route-id="@animal.AnimalID" onclick="return ConfirmDelete();">Delete</a></td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@animal.AnimalID" class="btn btn-warning btn-sm mx-1">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@animal.AnimalID" onclick="return ConfirmDelete();">Delete</a>
+                        </td>
 
 
                     </tr>

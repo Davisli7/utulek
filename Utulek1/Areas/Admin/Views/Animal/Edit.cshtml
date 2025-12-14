@@ -1,0 +1,92 @@
+﻿@model Utulek1.Domain.Entities.Animal
+
+@{
+    ViewData["Title"] = "Upravit zvíře";
+}
+
+<h1>Upravit zvíře: @Model.Name</h1>
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <input type="hidden" asp-for="AnimalID" />
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">Jméno</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Age" class="form-label">Věk</label>
+                <input asp-for="Age" class="form-control" />
+                <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label">Popis</label>
+                <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            @if (Model.Photos != null && Model.Photos.Any())
+            {
+                <div class="mb-3">
+                    <label class="form-label">Aktuální fotky:</label>
+                    <div class="d-flex flex-wrap gap-2">
+                        @foreach (var photo in Model.Photos)
+                        {
+                            <img src="@photo.PhotoURL" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd;" />
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label asp-for="BreedID" class="form-label">Plemeno</label>
+                <select asp-for="BreedID" class="form-select" asp-items="ViewBag.BreedList">
+                    <option value="">-- Vyberte plemeno --</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="SpeciesID" class="form-label">Druh</label>
+                <select asp-for="SpeciesID" class="form-select" asp-items="ViewBag.SpeciesList">
+                    <option value="">-- Vyberte druh --</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Status" class="form-label">Status</label>
+                <select asp-for="Status" class="form-select">
+                    <option value="K adopci">K adopci</option>
+                    <option value="Zarezervováno">Zarezervováno</option>
+                    <option value="Adoptováno">Adoptováno</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ArrivalDate" class="form-label">Datum příchodu</label>
+                <input asp-for="ArrivalDate" class="form-control" type="date" />
+            </div>
+
+            <div class="mb-3 border p-3 bg-light rounded">
+                <label class="form-label fw-bold">Přidat další fotky</label>
+                <input type="file" name="uploadedFiles" class="form-control" multiple accept="image/*" />
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <button type="submit" class="btn btn-warning btn-lg">Uložit změny</button>
+        <a asp-action="Select" class="btn btn-secondary btn-lg ms-2">Zpět</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

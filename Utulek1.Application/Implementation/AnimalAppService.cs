@@ -32,6 +32,14 @@ namespace Utulek1.Application.Implementation
                 .ToList();
         }
 
+        public Animal? Select(int id)
+        {
+            // Načteme zvíře i s fotkami, abychom je mohli v editaci zobrazit
+            return _utulekDbContext.Animals
+                                   .Include(a => a.Photos)
+                                   .FirstOrDefault(a => a.AnimalID == id);
+        }
+
         public void Create(Animal animal, IEnumerable<IFormFile> uploadedFiles)
         {
             if (animal == null) throw new ArgumentNullException(nameof(animal));
@@ -52,6 +60,45 @@ namespace Utulek1.Application.Implementation
 
             _utulekDbContext.Animals.Add(animal);
             _utulekDbContext.SaveChanges();
+        }
+
+        public void Update(Animal animal, IEnumerable<IFormFile> uploadedFiles)
+        {
+            // Najdeme původní záznam v databázi (včetně fotek)
+            Animal? existingAnimal = _utulekDbContext.Animals
+                                                     .Include(a => a.Photos)
+                                                     .FirstOrDefault(a => a.AnimalID == animal.AnimalID);
+
+            if (existingAnimal != null)
+            {
+                // Aktualizujeme základní údaje
+                existingAnimal.Name = animal.Name;
+                existingAnimal.Age = animal.Age;
+                existingAnimal.Description = animal.Description;
+                existingAnimal.BreedID = animal.BreedID;
+                existingAnimal.SpeciesID = animal.SpeciesID;
+                existingAnimal.Status = animal.Status;
+                existingAnimal.ArrivalDate = animal.ArrivalDate;
+
+                // Pokud byly nahrány NOVÉ fotky, přidáme je k těm stávajícím
+                if (uploadedFiles != null && uploadedFiles.Any())
+                {
+                    // Inicializace listu, kdyby byl náhodou null (což by díky Include neměl být)
+                    if (existingAnimal.Photos == null)
+                        existingAnimal.Photos = new List<Photo>();
+
+                    foreach (var file in uploadedFiles)
+                    {
+                        // Použijeme tvou existující službu pro nahrání souboru
+                        string imageSrc = _fileUploadService.FileUpload(file, Path.Combine("img", "animals"));
+
+                        existingAnimal.Photos.Add(new Photo { PhotoURL = imageSrc });
+                    }
+                }
+
+                // Uložíme změny do databáze
+                _utulekDbContext.SaveChanges();
+            }
         }
 
         public bool Delete(int id)

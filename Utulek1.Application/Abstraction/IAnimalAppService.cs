@@ -11,7 +11,9 @@ namespace Utulek1.Application.Abstraction
     public interface IAnimalAppService
     {
         IList<Animal> Select();
+        Animal? Select(int id); // <--- NOVÁ METODA (načtení jednoho zvířete)
         void Create(Animal animal, IEnumerable<IFormFile> uploadedFiles);
+        void Update(Animal animal, IEnumerable<IFormFile> uploadedFiles); // <--- NOVÁ METODA (uložení změn)
         bool Delete(int id);
     }
 }
