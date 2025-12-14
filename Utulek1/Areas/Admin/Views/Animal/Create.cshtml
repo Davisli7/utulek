@@ -7,7 +7,7 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<form asp-action="Create" method="post">
+<form asp-action="Create" method="post" enctype="multipart/form-data">
     <div asp-validation-summary="All" class="text-danger"></div>
 
     <div class="mb-3">
@@ -56,11 +56,10 @@
         <input asp-for="SpeciesID" class="form-control" />
         <span asp-validation-for="SpeciesID" class="text-danger"></span>
     </div>
-    
+
     <div class="mb-3">
-        <label asp-for="Photos" class="form-label"></label>
-        <input asp-for="Photos" class="form-control" />
-        <span asp-validation-for="Photos" class="text-danger"></span>
+        <label class="form-label">Fotografie</label>
+        <input type="file" name="uploadedFiles" multiple class="form-control" />
     </div>
     <div class="mb-3">
         <label asp-for="AdoptionRequests" class="form-label"></label>

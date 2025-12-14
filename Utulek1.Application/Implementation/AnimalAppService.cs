@@ -8,6 +8,7 @@ using System.IO;
 using Utulek1.Application.Abstraction;
 using Utulek1.Domain.Entities;
 using Utulek1.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace Utulek1.Application.Implementation
 {
@@ -24,7 +25,11 @@ namespace Utulek1.Application.Implementation
 
         public IList<Animal> Select()
         {
-            return _utulekDbContext.Animals.ToList();
+            return _utulekDbContext.Animals
+                .Include(a => a.Breed)   // Načti plemeno
+                .Include(a => a.Species) // Načti druh
+                .Include(a => a.Photos)  // Načti fotky (pokud je chceš zobrazovat v seznamu)
+                .ToList();
         }
 
         public void Create(Animal animal, IEnumerable<IFormFile> uploadedFiles)

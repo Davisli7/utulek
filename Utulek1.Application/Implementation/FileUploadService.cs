@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace Utulek1.Application.Implementation
                 fileToUpload.CopyTo(stream);
             }
 
-            filePathOutput = Path.DirectorySeparatorChar + fileRelative;
+            filePathOutput = "/" + fileRelative.Replace("\\", "/");
 
             return filePathOutput;
         }
