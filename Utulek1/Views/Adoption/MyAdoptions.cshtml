@@ -1,0 +1,72 @@
+﻿@model IList<Utulek1.Domain.Entities.AdoptionRequest>
+@using Utulek1.Domain.Enums
+
+@{
+    ViewData["Title"] = "Moje adopce";
+}
+
+<div class="container mt-5">
+    <h1 class="mb-4">Moje žádosti o adopci</h1>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="row">
+            @foreach (var request in Model)
+            {
+                <div class="col-md-12 mb-3">
+                    <div class="card shadow-sm">
+                        <div class="card-body d-flex align-items-center justify-content-between">
+
+                            <div class="d-flex align-items-center">
+                                @if (request.Animal != null && request.Animal.Photos != null && request.Animal.Photos.Any())
+                                {
+                                    <img src="@request.Animal.Photos.First().PhotoURL"
+                                         style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%; margin-right: 15px;" />
+                                }
+                                <div>
+                                    <h4 class="mb-0">@request.Animal?.Name</h4>
+                                    <small class="text-muted">Žádost vytvořena: @request.CreatedAt.ToString("dd.MM.yyyy HH:mm")</small>
+                                </div>
+                            </div>
+
+                            <div>
+                                @if (request.Status == AdoptionRequestStatus.Pending)
+                                {
+                                    <span class="badge bg-warning text-dark fs-6">Čeká na schválení</span>
+                                }
+                                else if (request.Status == AdoptionRequestStatus.Approved)
+                                {
+                                    <span class="badge bg-success fs-6">Schváleno - Rezervováno</span>
+                                    <div class="text-muted small mt-1">Kontaktujte nás pro převzetí.</div>
+                                }
+                                else if (request.Status == AdoptionRequestStatus.Rejected)
+                                {
+                                    <span class="badge bg-danger fs-6">Zamítnuto</span>
+                                }
+                                else if (request.Status == AdoptionRequestStatus.Completed)
+                                {
+                                    <span class="badge bg-primary fs-6">Adoptováno</span>
+                                }
+                                else if (request.Status == AdoptionRequestStatus.Cancelled)
+                                {
+                                    <span class="badge bg-secondary fs-6">Zrušeno vámi</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            Zatím nemáte žádné žádosti o adopci. <a asp-action="Index">Podívejte se na naše zvířátka!</a>
+        </div>
+    }
+</div>

@@ -20,4 +20,8 @@
     <ProjectReference Include="..\Utulek1.Domain\Utulek1.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

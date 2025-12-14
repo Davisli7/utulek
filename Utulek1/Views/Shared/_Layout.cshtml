@@ -27,14 +27,25 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Adoption" asp-action="Index">Animals</a>
                         </li>
 
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark fw-bold" asp-area="" asp-controller="Adoption" asp-action="MyAdoptions">Moje adopce</a>
+                            </li>
+                        }
+
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
                         {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Animal" asp-action="Select">Animals manager</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Admin" asp-controller="Animal" asp-action="Select">Animals manager</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-danger fw-bold" asp-area="Admin" asp-controller="Adoption" asp-action="Index">Správa adopcí</a>
+                            </li>
                         }
                     </ul>
                     <ul class="navbar-nav ms-auto">

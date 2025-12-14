@@ -1,0 +1,115 @@
+﻿@model IList<Utulek1.Domain.Entities.AdoptionRequest>
+@using Utulek1.Domain.Enums
+
+@{
+    ViewData["Title"] = "Správa adopcí";
+}
+
+<div class="container-fluid">
+    <h1 class="mb-4">Správa adopcí</h1>
+
+    <div class="card shadow">
+        <div class="card-body">
+            @if (Model != null && Model.Any())
+            {
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Datum</th>
+                            <th>Zvíře</th>
+                            <th>Žadatel</th>
+                            <th>Status</th>
+                            <th>Akce</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td>
+
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        @if (item.Animal?.Photos != null && item.Animal.Photos.Any())
+                                        {
+                                            <img src="@item.Animal.Photos.First().PhotoURL" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;" />
+                                        }
+                                        <strong>@item.Animal?.Name</strong>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div>@item.User?.UserName</div>
+                                    <small class="text-muted">@item.User?.Email</small>
+                                </td>
+
+                                <td>
+                                    @switch (item.Status)
+                                    {
+                                        case AdoptionRequestStatus.Pending:
+                                            <span class="badge bg-warning text-dark">Čeká na schválení</span>
+                                            break;
+                                        case AdoptionRequestStatus.Approved:
+                                            <span class="badge bg-success">Schváleno (Rezervováno)</span>
+                                            break;
+                                        case AdoptionRequestStatus.Rejected:
+                                            <span class="badge bg-danger">Zamítnuto</span>
+                                            break;
+                                        case AdoptionRequestStatus.Completed:
+                                            <span class="badge bg-primary">Dokončeno</span>
+                                            break;
+                                        case AdoptionRequestStatus.Cancelled:
+                                            <span class="badge bg-secondary">Zrušeno uživatelem</span>
+                                            break;
+                                    }
+                                </td>
+
+                                <td>
+                                    <div class="btn-group" role="group">
+
+                                        @if (item.Status == AdoptionRequestStatus.Pending)
+                                        {
+                                            <form asp-action="ChangeStatus" method="post">
+                                                <input type="hidden" name="requestId" value="@item.AdoptionRequestID" />
+                                                <input type="hidden" name="status" value="@AdoptionRequestStatus.Approved" />
+                                                <button type="submit" class="btn btn-success btn-sm me-1" title="Schválit a rezervovat zvíře">Schválit</button>
+                                            </form>
+
+                                            <form asp-action="ChangeStatus" method="post">
+                                                <input type="hidden" name="requestId" value="@item.AdoptionRequestID" />
+                                                <input type="hidden" name="status" value="@AdoptionRequestStatus.Rejected" />
+                                                <button type="submit" class="btn btn-danger btn-sm" title="Zamítnout">Zamítnout</button>
+                                            </form>
+                                        }
+                                        else if (item.Status == AdoptionRequestStatus.Approved)
+                                        {
+                                            <form asp-action="ChangeStatus" method="post">
+                                                <input type="hidden" name="requestId" value="@item.AdoptionRequestID" />
+                                                <input type="hidden" name="status" value="@AdoptionRequestStatus.Completed" />
+                                                <button type="submit" class="btn btn-primary btn-sm me-1" title="Předat zvíře novému majiteli">Předat (Dokončit)</button>
+                                            </form>
+
+                                            <form asp-action="ChangeStatus" method="post">
+                                                <input type="hidden" name="requestId" value="@item.AdoptionRequestID" />
+                                                <input type="hidden" name="status" value="@AdoptionRequestStatus.Rejected" />
+                                                <button type="submit" class="btn btn-outline-danger btn-sm" title="Zrušit schválení">Zrušit</button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted small">Žádné akce</span>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p class="text-muted text-center my-4">Zatím neevidujeme žádné žádosti o adopci.</p>
+            }
+        </div>
+    </div>
+</div>

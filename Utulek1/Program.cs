@@ -7,6 +7,7 @@ using Utulek1.Domain.Entities;
 using Utulek1.Infrastructure;
 using Utulek1.Infrastructure.Repositories;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -48,6 +49,8 @@ builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 
 // Registrace aplikacních služeb
 builder.Services.AddScoped<IAnimalAppService, AnimalAppService>();
+
+builder.Services.AddScoped<IAdoptionAppService, AdoptionAppService>();
 
 // Registrace FileUploadService s pøedáním webroot cesty
 builder.Services.AddScoped<IFileUploadService>(provider =>

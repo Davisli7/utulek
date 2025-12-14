@@ -9,6 +9,11 @@
     <p class="lead">Vyberte si parťáka pro život.</p>
 </div>
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
 @if (Model != null && Model.Any())
 {
     <section class="py-5">
@@ -39,7 +44,24 @@
 
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                 <div class="text-center">
-                                    <a class="btn btn-outline-dark mt-auto" href="#">Mám zájem</a>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        @if (animal.Status == "K adopci")
+                                        {
+                                            <form asp-action="CreateRequest" method="post">
+                                                <input type="hidden" name="animalId" value="@animal.AnimalID" />
+                                                <button type="submit" class="btn btn-primary mt-auto">Mám zájem</button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-secondary mt-auto" disabled>Není k dispozici</button>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <a asp-controller="Account" asp-action="Login" class="btn btn-outline-dark mt-auto">Přihlaste se pro adopci</a>
+                                    }
                                 </div>
                             </div>
                         </div>

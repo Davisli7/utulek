@@ -5,31 +5,26 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Utulek1.Domain.Enums;
 
 namespace Utulek1.Domain.Entities
 {
     public class AdoptionRequest
     {
-        [Key]
-        public int RequestID { get; set; }
+        public int AdoptionRequestID { get; set; }
 
-        [ForeignKey("Animal")]
         public int AnimalID { get; set; }
+        [ForeignKey(nameof(AnimalID))]
+        public virtual Animal Animal { get; set; }
 
-        [ForeignKey("User")]
         public int UserID { get; set; }
+        [ForeignKey(nameof(UserID))]
+        public virtual User User { get; set; }
 
-        [Required]
-        public DateTime RequestDate { get; set; }
+        // Nové vlastnosti
+        public AdoptionRequestStatus Status { get; set; } = AdoptionRequestStatus.Pending; // Výchozí stav je "Čeká"
 
-        [Required, StringLength(20)]
-        public string Status { get; set; }
-
-        [StringLength(500)]
-        public string? Message { get; set; }
-
-        public Animal Animal { get; set; }
-        public User User { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now; // Automaticky nastavíme čas vytvoření
     }
 
 }
