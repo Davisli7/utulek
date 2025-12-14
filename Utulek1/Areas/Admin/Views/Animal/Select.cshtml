@@ -31,7 +31,7 @@
                         <td>@animal.Name</td>
                         <td>@animal.Description</td>
                         <td>@animal.Status</td>
-                        <td>@animal.Photos</td>
+                        <td>@animal.Photos.FirstOrDefault()?.PhotoURL</td>
                         <td><a asp-action="Delete" asp-route-id="@animal.AnimalID" onclick="return ConfirmDelete();">Delete</a></td>
 
 
