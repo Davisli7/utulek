@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering; // Nutné pro SelectList
 using Utulek1.Application.Abstraction;
 using Utulek1.Domain.Entities;
@@ -7,6 +9,7 @@ using Utulek1.Infrastructure; // Nutné pro DbContext
 namespace Utulek1.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin, Manager")]
     public class AnimalController : Controller
     {
         private readonly IAnimalAppService _animalAppService;
