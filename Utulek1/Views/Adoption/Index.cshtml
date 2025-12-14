@@ -1,0 +1,62 @@
+﻿@model IList<Utulek1.Domain.Entities.Animal>
+
+@{
+    ViewData["Title"] = "Nabídka adopce";
+}
+
+<div class="text-center mb-5">
+    <h1 class="display-4">Naši svěřenci hledají domov</h1>
+    <p class="lead">Vyberte si parťáka pro život.</p>
+</div>
+
+@if (Model != null && Model.Any())
+{
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                @foreach (var animal in Model)
+                {
+                    <div class="col mb-5">
+                        <div class="card h-100 shadow-sm">
+                            <img class="card-img-top"
+                                 style="height: 200px; object-fit: cover;"
+                                 src="@(animal.Photos?.FirstOrDefault()?.PhotoURL ?? "/img/Carousel/Placeholder.png")"
+                                 alt="@animal.Name" />
+
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <h5 class="fw-bolder">@animal.Name</h5>
+                                    <p class="text-muted small">@animal.Status</p> <div class="d-flex justify-content-center small text-warning mb-2">
+                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div>
+                                    </div>
+                                    <p class="card-text text-truncate">@animal.Description</p>
+                                </div>
+                            </div>
+
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center">
+                                    <a class="btn btn-outline-dark mt-auto" href="#">Mám zájem</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}
+else
+{
+    <div class="text-center">
+        <p>Momentálně zde nejsou žádná zvířata k adopci.</p>
+    </div>
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/shop_home.css" asp-append-version="true" />
+}
