@@ -19,9 +19,16 @@ namespace Utulek1.Areas.Admin.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<IActionResult> Index(string? searchEmail, string? roleFilter)
         {
-            var users = await _userAppService.SelectAll();
+            // Uložíme si aktuální filtry, abychom je mohli ve View znovu předvyplnit
+            ViewBag.CurrentSearchEmail = searchEmail;
+            ViewBag.CurrentRoleFilter = roleFilter;
+
+            // Zavoláme službu s filtry
+            var users = await _userAppService.SelectAll(searchEmail, roleFilter);
+
             return View(users);
         }
 

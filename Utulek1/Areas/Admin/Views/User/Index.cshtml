@@ -16,6 +16,38 @@
         <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
     }
 
+    <div class="card shadow mb-4">
+        <div class="card-body bg-light">
+            <form method="get" asp-action="Index" class="row g-3 align-items-end">
+
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Vyhledat podle emailu:</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                        <input type="text" name="searchEmail" class="form-control"
+                               placeholder="např. novak@email.cz"
+                               value="@ViewBag.CurrentSearchEmail" />
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Role:</label>
+                    <select name="roleFilter" class="form-select">
+                        <option value="All" selected="@(ViewBag.CurrentRoleFilter == "All" || ViewBag.CurrentRoleFilter == null)">-- Všechny role --</option>
+                        <option value="Admin" selected="@(ViewBag.CurrentRoleFilter == "Admin")">Admin</option>
+                        <option value="Manager" selected="@(ViewBag.CurrentRoleFilter == "Manager")">Manager</option>
+                        <option value="Customer" selected="@(ViewBag.CurrentRoleFilter == "Customer")">Zákazník</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary me-2">Filtrovat</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Zrušit filtr</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="card shadow">
         <div class="card-body">
             <table class="table table-hover align-middle">

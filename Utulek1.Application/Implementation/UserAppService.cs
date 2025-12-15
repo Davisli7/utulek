@@ -20,7 +20,7 @@ namespace Utulek1.Application.Implementation
             _userManager = userManager;
         }
 
-        public async Task<IList<UserListItemViewModel>> SelectAll()
+        public async Task<IList<UserListItemViewModel>> SelectAll(string? searchEmail, string? roleFilter)
         {
             var users = await _userManager.Users.ToListAsync();
             var userList = new List<UserListItemViewModel>();
@@ -39,6 +39,24 @@ namespace Utulek1.Application.Implementation
                     LastName = user.LastName,
                     Role = roles.FirstOrDefault() ?? "Zákazník" // Pokud nemá roli, je to zákazník
                 });
+            }
+
+            // --- FILTROVÁNÍ ---
+
+            // 1. Filtr podle Emailu
+            if (!string.IsNullOrEmpty(searchEmail))
+            {
+                // Používáme CurrentCultureIgnoreCase, aby nezáleželo na velkých/malých písmenech
+                userList = userList.Where(u => u.Email != null &&
+                                               u.Email.Contains(searchEmail, StringComparison.CurrentCultureIgnoreCase))
+                                   .ToList();
+            }
+
+            // 2. Filtr podle Role
+            if (!string.IsNullOrEmpty(roleFilter) && roleFilter != "All")
+            {
+                // U rolí filtrujeme přesnou shodu (např. jen "Manager")
+                userList = userList.Where(u => u.Role == roleFilter).ToList();
             }
 
             return userList;
