@@ -12,6 +12,10 @@ namespace Utulek1.Application.Abstraction
     {
         IList<Animal> Select();
         Animal? Select(int id); // <--- NOVÁ METODA (načtení jednoho zvířete)
+
+        IList<Species> SelectSpecies();
+        IList<Breed> SelectBreeds();
+
         void Create(Animal animal, IEnumerable<IFormFile> uploadedFiles);
         void Update(Animal animal, IEnumerable<IFormFile> uploadedFiles); // <--- NOVÁ METODA (uložení změn)
         bool Delete(int id);

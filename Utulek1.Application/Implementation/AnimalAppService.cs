@@ -40,6 +40,18 @@ namespace Utulek1.Application.Implementation
                                    .FirstOrDefault(a => a.AnimalID == id);
         }
 
+        // Přidejte tyto dvě metody do třídy AnimalAppService
+
+        public IList<Species> SelectSpecies()
+        {
+            return _utulekDbContext.Species.ToList();
+        }
+
+        public IList<Breed> SelectBreeds()
+        {
+            return _utulekDbContext.Breeds.ToList();
+        }
+
         public void Create(Animal animal, IEnumerable<IFormFile> uploadedFiles)
         {
             if (animal == null) throw new ArgumentNullException(nameof(animal));

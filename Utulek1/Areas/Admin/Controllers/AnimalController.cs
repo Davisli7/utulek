@@ -13,12 +13,10 @@ namespace Utulek1.Areas.Admin.Controllers
     public class AnimalController : Controller
     {
         private readonly IAnimalAppService _animalAppService;
-        private readonly UtulekDbContext _dbContext; // Přidán kontext pro načtení číselníků
 
-        public AnimalController(IAnimalAppService animalAppService, UtulekDbContext dbContext)
+        public AnimalController(IAnimalAppService animalAppService)
         {
             _animalAppService = animalAppService;
-            _dbContext = dbContext;
         }
 
         // GET: /<controller>/
@@ -32,8 +30,8 @@ namespace Utulek1.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            ViewBag.SpeciesList = new SelectList(_dbContext.Species, "SpeciesID", "Name");
-            ViewBag.BreedList = new SelectList(_dbContext.Breeds, "BreedID", "Name");
+            ViewBag.SpeciesList = new SelectList(_animalAppService.SelectSpecies(), "SpeciesID", "Name");
+            ViewBag.BreedList = new SelectList(_animalAppService.SelectBreeds(), "BreedID", "Name");
 
             return View();
         }
@@ -54,8 +52,8 @@ namespace Utulek1.Areas.Admin.Controllers
                 return RedirectToAction(nameof(AnimalController.Select));
             }
 
-            ViewBag.SpeciesList = new SelectList(_dbContext.Species, "SpeciesID", "Name");
-            ViewBag.BreedList = new SelectList(_dbContext.Breeds, "BreedID", "Name");
+            ViewBag.SpeciesList = new SelectList(_animalAppService.SelectSpecies(), "SpeciesID", "Name");
+            ViewBag.BreedList = new SelectList(_animalAppService.SelectBreeds(), "BreedID", "Name");
 
             return View(animal);
         }
@@ -72,9 +70,9 @@ namespace Utulek1.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            // 2. Naplníme dropdowny (stejně jako u Create)
-            ViewBag.SpeciesList = new SelectList(_dbContext.Species, "SpeciesID", "Name", animal.SpeciesID);
-            ViewBag.BreedList = new SelectList(_dbContext.Breeds, "BreedID", "Name", animal.BreedID);
+            // ZDE JE ZMĚNA
+            ViewBag.SpeciesList = new SelectList(_animalAppService.SelectSpecies(), "SpeciesID", "Name", animal.SpeciesID);
+            ViewBag.BreedList = new SelectList(_animalAppService.SelectBreeds(), "BreedID", "Name", animal.BreedID);
 
             // 3. Pošleme zvíře do View
             return View(animal);
@@ -97,9 +95,9 @@ namespace Utulek1.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Select));
             }
 
-            // Pokud je chyba, musíme znovu načíst dropdowny
-            ViewBag.SpeciesList = new SelectList(_dbContext.Species, "SpeciesID", "Name", animal.SpeciesID);
-            ViewBag.BreedList = new SelectList(_dbContext.Breeds, "BreedID", "Name", animal.BreedID);
+            // ZDE JE ZMĚNA
+            ViewBag.SpeciesList = new SelectList(_animalAppService.SelectSpecies(), "SpeciesID", "Name", animal.SpeciesID);
+            ViewBag.BreedList = new SelectList(_animalAppService.SelectBreeds(), "BreedID", "Name", animal.BreedID);
 
             return View(animal);
         }
