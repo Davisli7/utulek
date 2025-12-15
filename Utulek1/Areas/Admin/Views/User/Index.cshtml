@@ -1,0 +1,96 @@
+﻿@model IList<Utulek1.Application.ViewModels.UserListItemViewModel>
+
+@{
+    ViewData["Title"] = "Správa uživatelů";
+}
+
+<div class="container-fluid">
+    <h1 class="mb-4">Správa uživatelů</h1>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+
+    <div class="card shadow">
+        <div class="card-body">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Uživatel</th>
+                        <th>Jméno</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Akce</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td><strong>@user.UserName</strong></td>
+                            <td>@user.FirstName @user.LastName</td>
+                            <td>@user.Email</td>
+                            <td>
+                                @if (user.Role == "Admin")
+                                {
+                                    <span class="badge bg-danger">Admin</span>
+                                }
+                                else if (user.Role == "Manager")
+                                {
+                                    <span class="badge bg-warning text-dark">Manager</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-info text-dark">Zákazník</span>
+                                }
+                            </td>
+                            <td>
+                                @if (user.Role != "Admin")
+                                {
+                                    <div class="d-flex gap-2">
+                                        @if (user.Role == "Manager")
+                                        {
+                                            <form asp-action="ChangeRole" method="post">
+                                                <input type="hidden" name="id" value="@user.Id" />
+                                                <input type="hidden" name="role" value="Customer" />
+                                                <button type="submit" class="btn btn-outline-secondary btn-sm" title="Sesadit na Zákazníka">
+                                                    <i class="bi bi-arrow-down"></i> Na Zákazníka
+                                                </button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <form asp-action="ChangeRole" method="post">
+                                                <input type="hidden" name="id" value="@user.Id" />
+                                                <input type="hidden" name="role" value="Manager" />
+                                                <button type="submit" class="btn btn-outline-warning btn-sm" title="Povýšit na Managera">
+                                                    <i class="bi bi-arrow-up"></i> Na Managera
+                                                </button>
+                                            </form>
+                                        }
+
+                                        <form asp-action="Delete" method="post" onsubmit="return confirm('Opravdu chcete smazat uživatele @user.UserName?');">
+                                            <input type="hidden" name="id" value="@user.Id" />
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <i class="bi bi-trash"></i> Smazat
+                                            </button>
+                                        </form>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="text-muted small">Nelze upravovat</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

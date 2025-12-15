@@ -47,6 +47,14 @@
                                 <a class="nav-link text-danger fw-bold" asp-area="Admin" asp-controller="Adoption" asp-action="Index">Správa adopcí</a>
                             </li>
                         }
+
+                        @if (User.IsInRole("Admin")) 
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-danger fw-bold" asp-area="Admin" asp-controller="User" asp-action="Index">Uživatelé</a>
+                            </li>
+                        }
+
                     </ul>
                     <ul class="navbar-nav ms-auto">
                         @using Microsoft.AspNetCore.Identity

@@ -52,6 +52,8 @@ builder.Services.AddScoped<IAnimalAppService, AnimalAppService>();
 
 builder.Services.AddScoped<IAdoptionAppService, AdoptionAppService>();
 
+builder.Services.AddScoped<IUserAppService, UserAppService>();
+
 // Registrace FileUploadService s pøedáním webroot cesty
 builder.Services.AddScoped<IFileUploadService>(provider =>
 {
