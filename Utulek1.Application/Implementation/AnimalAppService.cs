@@ -37,6 +37,8 @@ namespace Utulek1.Application.Implementation
             // Načteme zvíře i s fotkami, abychom je mohli v editaci zobrazit
             return _utulekDbContext.Animals
                                    .Include(a => a.Photos)
+                                   .Include(a => a.Breed)    // <--- PŘIDAT TOTO (načte plemeno)
+                                   .Include(a => a.Species)
                                    .FirstOrDefault(a => a.AnimalID == id);
         }
 
