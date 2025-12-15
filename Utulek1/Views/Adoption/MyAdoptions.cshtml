@@ -38,11 +38,19 @@
                                 @if (request.Status == AdoptionRequestStatus.Pending)
                                 {
                                     <span class="badge bg-warning text-dark fs-6">Čeká na schválení</span>
+                                    <form asp-action="Cancel" method="post" onsubmit="return confirm('Opravdu chcete zrušit tuto žádost?');">
+                                        <input type="hidden" name="requestId" value="@request.AdoptionRequestID" />
+                                        <button type="submit" class="btn btn-outline-danger btn-sm mt-1">Zrušit žádost</button>
+                                    </form>
                                 }
                                 else if (request.Status == AdoptionRequestStatus.Approved)
                                 {
                                     <span class="badge bg-success fs-6">Schváleno - Rezervováno</span>
                                     <div class="text-muted small mt-1">Kontaktujte nás pro převzetí.</div>
+                                    <form asp-action="Cancel" method="post" onsubmit="return confirm('Opravdu zrušit? Zvíře bude uvolněno pro jiné zájemce.');">
+                                        <input type="hidden" name="requestId" value="@request.AdoptionRequestID" />
+                                        <button type="submit" class="btn btn-outline-danger btn-sm mt-1">Zrušit rezervaci</button>
+                                    </form>
                                 }
                                 else if (request.Status == AdoptionRequestStatus.Rejected)
                                 {
@@ -57,6 +65,9 @@
                                     <span class="badge bg-secondary fs-6">Zrušeno vámi</span>
                                 }
                             </div>
+
+                            
+
                         </div>
                     </div>
                 </div>

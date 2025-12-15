@@ -1,4 +1,4 @@
-﻿@model IList<Utulek1.Domain.Entities.Animal>
+﻿@model Utulek1.Application.ViewModels.AdoptionIndexViewModel
 
 @{
     ViewData["Title"] = "Nabídka adopce";
@@ -14,12 +14,12 @@
     <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
 }
 
-@if (Model != null && Model.Any())
+@if (Model != null && Model.Animals != null && Model.Animals.Any())
 {
     <section class="py-5">
         <div class="container px-4 px-lg-5 mt-5">
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                @foreach (var animal in Model)
+                @foreach (var animal in Model.Animals)
                 {
                     <div class="col mb-5">
                         <div class="card h-100 shadow-sm">
@@ -46,6 +46,13 @@
                                 <div class="text-center">
                                     @if (User.Identity.IsAuthenticated)
                                     {
+                                        @if (Model.UserRequestedAnimalIds.Contains(animal.AnimalID))
+                                        {
+                                            <button class="btn btn-warning mt-auto" disabled>
+                                                <i class="bi bi-clock-history"></i> Žádost odeslána
+                                            </button>
+                                            <a asp-action="MyAdoptions" class="d-block small mt-1">Zobrazit stav</a>
+                                        }
                                         @if (animal.Status == "K adopci")
                                         {
                                             <form asp-action="CreateRequest" method="post">

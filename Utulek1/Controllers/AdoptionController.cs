@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Utulek1.Application.Abstraction;
+using Utulek1.Application.ViewModels;
 using Utulek1.Domain.Entities;
 
 namespace Utulek1.Controllers
@@ -21,10 +22,28 @@ namespace Utulek1.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            // 1. Načteme zvířata
             IList<Animal> animals = _animalAppService.Select();
-            return View(animals);
+
+            // 2. Připravíme ViewModel
+            var viewModel = new AdoptionIndexViewModel
+            {
+                Animals = animals
+            };
+
+            // 3. Pokud je uživatel přihlášený, zjistíme jeho aktivní žádosti
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                if (user != null)
+                {
+                    viewModel.UserRequestedAnimalIds = _adoptionAppService.GetActiveAnimalIdsForUser(user.Id);
+                }
+            }
+
+            return View(viewModel);
         }
 
         // --- AKCE PRO VYTVOŘENÍ ŽÁDOSTI ---
@@ -52,6 +71,27 @@ namespace Utulek1.Controllers
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Cancel(int requestId)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return Challenge();
+
+            bool success = _adoptionAppService.CancelRequest(requestId, user.Id);
+
+            if (success)
+            {
+                TempData["SuccessMessage"] = "Žádost byla úspěšně zrušena.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Žádost se nepodařilo zrušit.";
+            }
+
+            return RedirectToAction(nameof(MyAdoptions));
         }
 
         // --- MOJE ADOPCE ---

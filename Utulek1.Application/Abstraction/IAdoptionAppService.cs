@@ -21,5 +21,11 @@ namespace Utulek1.Application.Abstraction
 
         // Změní status žádosti (schválit/zamítnout)
         void UpdateStatus(int requestId, AdoptionRequestStatus newStatus);
+
+        // Zruší žádost (vrátí true, pokud se povedlo, false pokud ne - např. cizí žádost)
+        bool CancelRequest(int requestId, int userId);
+
+        // Vrátí množinu ID zvířat, u kterých má uživatel aktivní žádost
+        HashSet<int> GetActiveAnimalIdsForUser(int userId);
     }
 }

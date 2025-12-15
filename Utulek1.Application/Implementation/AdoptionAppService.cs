@@ -106,5 +106,48 @@ namespace Utulek1.Application.Implementation
                 _dbContext.SaveChanges();
             }
         }
+
+        public bool CancelRequest(int requestId, int userId)
+        {
+            // Najdeme žádost i se zvířetem
+            var request = _dbContext.AdoptionRequests
+                                  .Include(ar => ar.Animal)
+                                  .FirstOrDefault(ar => ar.AdoptionRequestID == requestId);
+
+            // Kontrola: Existuje? A patří opravdu tomu přihlášenému uživateli?
+            if (request == null || request.UserID != userId)
+            {
+                return false; // Neoprávněný přístup nebo neexistuje
+            }
+
+            // Můžeme zrušit jen aktivní žádosti (ne ty, co už jsou dokončené nebo zamítnuté)
+            if (request.Status == AdoptionRequestStatus.Completed || request.Status == AdoptionRequestStatus.Rejected)
+            {
+                return false;
+            }
+
+            // Změna statusu žádosti
+            request.Status = AdoptionRequestStatus.Cancelled;
+
+            // SYNCHRONIZACE: Pokud bylo zvíře "Zarezervováno" touto žádostí, musíme ho uvolnit
+            if (request.Animal != null && request.Animal.Status == "Zarezervováno")
+            {
+                request.Animal.Status = "K adopci";
+            }
+
+            _dbContext.SaveChanges();
+            return true;
+        }
+
+        public HashSet<int> GetActiveAnimalIdsForUser(int userId)
+        {
+            return _dbContext.AdoptionRequests
+                             .Where(ar => ar.UserID == userId &&
+                                         (ar.Status == AdoptionRequestStatus.Pending ||
+                                          ar.Status == AdoptionRequestStatus.Approved))
+                             .Select(ar => ar.AnimalID)
+                             .ToHashSet();
+        }
+
     }
 }
