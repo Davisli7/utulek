@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using Utulek1.Application.Abstraction;
 using Utulek1.Domain.Entities;
 using Utulek1.Domain.Enums;
 using Utulek1.Infrastructure;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Utulek1.Application.Implementation
 {
@@ -20,14 +21,27 @@ namespace Utulek1.Application.Implementation
             _dbContext = dbContext;
         }
 
-        public IList<AdoptionRequest> Select()
+        public IList<AdoptionRequest> Select(string? searchEmail = null, AdoptionRequestStatus? statusFilter = null)
         {
-            // Načteme žádosti i s informacemi o Zvířeti a Uživateli
-            return _dbContext.AdoptionRequests
-                             .Include(ar => ar.Animal)
-                             .Include(ar => ar.User)
-                             .OrderByDescending(ar => ar.CreatedAt)
-                             .ToList();
+            // Začneme dotazem na všechny žádosti vč. vazeb
+            IQueryable<AdoptionRequest> query = _dbContext.AdoptionRequests
+                                                .Include(ar => ar.Animal) // Potřebujeme pro zobrazení jména zvířete
+                                                .Include(ar => ar.User);  // Potřebujeme pro email uživatele
+
+            // 1. Filtr podle Emailu
+            if (!string.IsNullOrEmpty(searchEmail))
+            {
+                query = query.Where(ar => ar.User.Email.Contains(searchEmail));
+            }
+
+            // 2. Filtr podle Statusu
+            if (statusFilter.HasValue)
+            {
+                query = query.Where(ar => ar.Status == statusFilter.Value);
+            }
+
+            // Seřadíme od nejnovějších a vrátíme seznam
+            return query.OrderByDescending(ar => ar.CreatedAt).ToList();
         }
 
         public IList<AdoptionRequest> SelectForUser(int userId)

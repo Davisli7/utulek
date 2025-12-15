@@ -16,10 +16,16 @@ namespace Utulek1.Areas.Admin.Controllers
             _adoptionAppService = adoptionAppService;
         }
 
-        public IActionResult Index()
+        
+        public IActionResult Index(string? searchEmail, AdoptionRequestStatus? statusFilter)
         {
-            // Načteme všechny žádosti seřazené od nejnovějších
-            var requests = _adoptionAppService.Select();
+            // Uložíme filtry do ViewBag pro zachování ve formuláři
+            ViewBag.CurrentSearchEmail = searchEmail;
+            ViewBag.CurrentStatusFilter = statusFilter;
+
+            // Zavoláme službu s filtry
+            var requests = _adoptionAppService.Select(searchEmail, statusFilter);
+
             return View(requests);
         }
 

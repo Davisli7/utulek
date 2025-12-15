@@ -11,8 +11,7 @@ namespace Utulek1.Application.Abstraction
     public interface IAdoptionAppService
     {
         // Vrátí všechny žádosti (pro admina)
-        IList<AdoptionRequest> Select();
-
+        IList<AdoptionRequest> Select(string? searchEmail = null, AdoptionRequestStatus? statusFilter = null);
         // Vrátí žádosti konkrétního uživatele
         IList<AdoptionRequest> SelectForUser(int userId);
 
