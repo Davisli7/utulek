@@ -46,6 +46,43 @@ namespace Utulek1.Controllers
             return View(viewModel);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Detail(int id)
+        {
+            // 1. Načteme detail zvířete (včetně fotek)
+            var animal = _animalAppService.Select(id);
+
+            if (animal == null)
+            {
+                return NotFound();
+            }
+
+            // 2. Připravíme ViewModel
+            var viewModel = new AdoptionDetailViewModel
+            {
+                Animal = animal
+            };
+
+            // 3. Zjistíme, jestli má uživatel o toto konkrétní zvíře zájem
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                if (user != null)
+                {
+                    // Využijeme tvoji existující metodu pro získání IDček
+                    var activeRequests = _adoptionAppService.GetActiveAnimalIdsForUser(user.Id);
+
+                    // Pokud je ID tohoto zvířete v seznamu, nastavíme true
+                    if (activeRequests.Contains(animal.AnimalID))
+                    {
+                        viewModel.HasActiveRequest = true;
+                    }
+                }
+            }
+
+            return View(viewModel);
+        }
+
         // --- AKCE PRO VYTVOŘENÍ ŽÁDOSTI ---
         [HttpPost]
         [Authorize] // Jen pro přihlášené
