@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Utulek1.Domain.Validation;
 
 namespace Utulek1.Domain.Entities
 {
@@ -13,8 +14,9 @@ namespace Utulek1.Domain.Entities
         [Key]
         public int AnimalID { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Jméno zvířete je povinné")]
         [StringLength(50)]
+        [CapitalLetter(ErrorMessage = "Jméno zvířete musí začínat velkým písmenem")] 
         public string Name { get; set; }
 
         [Range(0, 50)]
@@ -29,6 +31,7 @@ namespace Utulek1.Domain.Entities
 
         [Required]
         [DataType(DataType.Date)]
+        [NotFutureDate(ErrorMessage = "Datum přijetí nemůže být v budoucnosti")] 
         public DateTime ArrivalDate { get; set; }
 
         [Required]

@@ -67,7 +67,10 @@
             <div class="mb-3 border p-3 bg-light rounded">
                 <label class="form-label fw-bold">Nahrát fotky</label>
                 <input type="file" name="uploadedFiles" class="form-control" multiple accept="image/*" />
-                <small class="text-muted">Můžete vybrat více obrázků najednou.</small>
+                <small class="text-muted">Můžete vybrat více obrázků najednou (jpg, png, webp,  max 10MB).</small>
+
+                <span class="text-danger field-validation-valid" data-valmsg-for="uploadedFiles" data-valmsg-replace="true"></span>
+                @Html.ValidationMessage("uploadedFiles", new { @class = "text-danger" })
             </div>
         </div>
     </div>

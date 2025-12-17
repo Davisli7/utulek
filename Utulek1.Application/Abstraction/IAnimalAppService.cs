@@ -17,6 +17,7 @@ namespace Utulek1.Application.Abstraction
 
         void Create(Animal animal, IEnumerable<IFormFile> uploadedFiles);
         void Update(Animal animal, IEnumerable<IFormFile> uploadedFiles); // <--- NOVÁ METODA (uložení změn)
+        bool DeletePhoto(int photoId);
         bool Delete(int id);
     }
 }

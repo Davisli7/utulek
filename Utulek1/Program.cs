@@ -50,6 +50,8 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Account/AccessDenied";
 });
 
+
+builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
 // --- NOVÉ: REGISTRACE SEEDERU ---
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 

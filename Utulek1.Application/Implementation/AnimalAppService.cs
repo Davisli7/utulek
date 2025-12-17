@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
 using Utulek1.Application.Abstraction;
 using Utulek1.Domain.Entities;
 using Utulek1.Infrastructure;
-using Microsoft.EntityFrameworkCore;
+using Utulek1.Infrastructure.Repositories;
 
 namespace Utulek1.Application.Implementation
 {
@@ -16,11 +17,13 @@ namespace Utulek1.Application.Implementation
     {
         UtulekDbContext _utulekDbContext;
         IFileUploadService _fileUploadService;
+        private readonly IAnimalRepository _animalRepository;
 
-        public AnimalAppService(UtulekDbContext eshopDbContext, IFileUploadService fileUploadService)
+        public AnimalAppService(UtulekDbContext eshopDbContext, IFileUploadService fileUploadService, IAnimalRepository animalRepository)
         {
             _utulekDbContext = eshopDbContext ?? throw new ArgumentNullException(nameof(eshopDbContext));
             _fileUploadService = fileUploadService ?? throw new ArgumentNullException(nameof(fileUploadService));
+            _animalRepository = animalRepository;
         }
 
         public IList<Animal> Select(string? searchName = null, int? speciesId = null, string? status = null)
@@ -134,6 +137,12 @@ namespace Utulek1.Application.Implementation
                 // Uložíme změny do databáze
                 _utulekDbContext.SaveChanges();
             }
+        }
+
+        public bool DeletePhoto(int photoId)
+        {
+            // Jen předáme požadavek dál do Repository
+            return _animalRepository.DeletePhoto(photoId);
         }
 
         public bool Delete(int id)

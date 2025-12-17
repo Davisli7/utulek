@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering; // Nutné pro SelectList
 using Utulek1.Application.Abstraction;
 using Utulek1.Domain.Entities;
 using Utulek1.Infrastructure; // Nutné pro DbContext
+using Utulek1.Domain.Validation;
 
 namespace Utulek1.Areas.Admin.Controllers
 {
@@ -49,7 +50,10 @@ namespace Utulek1.Areas.Admin.Controllers
 
 
         [HttpPost]
-        public IActionResult Create(Animal animal, IEnumerable<IFormFile> uploadedFiles)
+        public IActionResult Create(Animal animal,
+            [AllowedExtensions(new string[] { ".jpg", ".jpeg", ".png", ".webp" })]
+            [MaxFileSize(10)]
+            IEnumerable<IFormFile> uploadedFiles)
         {
             ModelState.Remove(nameof(Animal.Breed));
             ModelState.Remove(nameof(Animal.Species));
@@ -91,7 +95,10 @@ namespace Utulek1.Areas.Admin.Controllers
 
         // --- EDITACE (POST) ---
         [HttpPost]
-        public IActionResult Edit(Animal animal, IEnumerable<IFormFile> uploadedFiles)
+        public IActionResult Edit(Animal animal,
+            [AllowedExtensions(new string[] { ".jpg", ".jpeg", ".png", ".webp" })]
+            [MaxFileSize(10)]
+            IEnumerable<IFormFile> uploadedFiles)
         {
             // Validace - odstraníme navigační vlastnosti
             ModelState.Remove(nameof(Animal.Breed));
@@ -106,11 +113,27 @@ namespace Utulek1.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Select));
             }
 
+            var originalAnimal = _animalAppService.Select(animal.AnimalID);
+            if (originalAnimal != null)
+            {
+                animal.Photos = originalAnimal.Photos;
+            }
+
             // ZDE JE ZMĚNA
             ViewBag.SpeciesList = new SelectList(_animalAppService.SelectSpecies(), "SpeciesID", "Name", animal.SpeciesID);
             ViewBag.BreedList = new SelectList(_animalAppService.SelectBreeds(), "BreedID", "Name", animal.BreedID);
 
             return View(animal);
+        }
+
+        [HttpGet]
+        public IActionResult DeletePhoto(int photoId, int animalId)
+        {
+            // 1. Smažeme záznam z DB
+            _animalAppService.DeletePhoto(photoId);
+
+            // 2. Vrátíme se zpět na formulář editace (refresh stránky)
+            return RedirectToAction(nameof(Edit), new { id = animalId });
         }
 
         public IActionResult Delete(int id)
