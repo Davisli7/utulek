@@ -26,6 +26,6 @@ namespace Utulek1.Domain.Entities
 
         public string? Exception { get; set; }
 
-        public string? Properties { get; set; } // Zde jsou technická data (XML/JSON)
+        public string? Properties { get; set; } 
     }
 }

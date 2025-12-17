@@ -8,10 +8,10 @@ namespace Utulek1.Domain.Enums
 {
     public enum AdoptionRequestStatus
     {
-        Pending,    // Čeká na schválení
-        Approved,   // Schváleno (Zvíře je rezervováno)
-        Rejected,   // Zamítnuto
-        Completed,  // Dokončeno (Zvíře si odvezli)
-        Cancelled   // Zrušeno uživatelem
+        Pending,    
+        Approved,  
+        Rejected,  
+        Completed, 
+        Cancelled   
     }
 }

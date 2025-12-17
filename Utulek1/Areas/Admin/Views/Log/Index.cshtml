@@ -38,7 +38,6 @@
                 <tbody>
                     @foreach (var log in Model)
                     {
-                        // Obarvení řádků podle závažnosti
                         string rowClass = "";
                         if (log.Level == "Error" || log.Level == "Fatal") rowClass = "table-danger";
                         else if (log.Level == "Warning") rowClass = "table-warning";

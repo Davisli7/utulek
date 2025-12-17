@@ -16,12 +16,12 @@ namespace Utulek1.Models
 
         [Display(Name = "Křestní jméno")]
         [Required(ErrorMessage = "Jméno je povinné")]
-        [CapitalLetter(ErrorMessage = "Jméno musí začínat velkým písmenem")] // <--- VLASTNÍ ATRIBUT
+        [CapitalLetter(ErrorMessage = "Jméno musí začínat velkým písmenem")] 
         public string FirstName { get; set; }
 
         [Display(Name = "Příjmení")]
         [Required(ErrorMessage = "Příjmení je povinné")]
-        [CapitalLetter(ErrorMessage = "Příjmení musí začínat velkým písmenem")] // <--- VLASTNÍ ATRIBUT
+        [CapitalLetter(ErrorMessage = "Příjmení musí začínat velkým písmenem")] 
         public string LastName { get; set; }
 
         [Display(Name = "Heslo")]

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Utulek1.Application.Abstraction;
 using Utulek1.Domain.Entities;
-using Utulek1.Infrastructure; // Nutné pro DbContext
+using Utulek1.Infrastructure; 
 
 namespace Utulek1.Application.Implementation
 {
@@ -15,13 +15,13 @@ namespace Utulek1.Application.Implementation
     {
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
-        private readonly UtulekDbContext _dbContext; // Přidáno
+        private readonly UtulekDbContext _dbContext; 
 
         public DbInitializer(UserManager<User> userManager, RoleManager<Role> roleManager, UtulekDbContext dbContext)
         {
             _userManager = userManager;
             _roleManager = roleManager;
-            _dbContext = dbContext; // Inicializace
+            _dbContext = dbContext; 
         }
 
         public void Initialize()
@@ -70,24 +70,20 @@ namespace Utulek1.Application.Implementation
                     _userManager.AddToRoleAsync(manager, "Manager").Wait();
                 }
             }
-            // Pokud v databázi nejsou žádné druhy, vytvoříme je
             if (!_dbContext.Species.Any())
             {
                 var pes = new Species { Name = "Pes" };
                 var kocka = new Species { Name = "Kočka" };
 
                 _dbContext.Species.AddRange(pes, kocka);
-                _dbContext.SaveChanges(); // Uložíme, aby dostali ID
+                _dbContext.SaveChanges(); 
 
-                // Teď přidáme plemena
                 _dbContext.Breeds.AddRange(
-                    // Psi
                     new Breed { Name = "Kříženec", SpeciesID = pes.SpeciesID },
                     new Breed { Name = "Německý ovčák", SpeciesID = pes.SpeciesID },
                     new Breed { Name = "Zlatý retrívr", SpeciesID = pes.SpeciesID },
                     new Breed { Name = "Jezevčík", SpeciesID = pes.SpeciesID },
 
-                    // Kočky
                     new Breed { Name = "Kříženec", SpeciesID = kocka.SpeciesID },
                     new Breed { Name = "Evropská krátkosrstá", SpeciesID = kocka.SpeciesID },
                     new Breed { Name = "Britská modrá", SpeciesID = kocka.SpeciesID }

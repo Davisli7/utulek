@@ -24,7 +24,6 @@ namespace Utulek1.Application.Implementation
 
             var fileName = Path.GetFileNameWithoutExtension(fileToUpload.FileName);
             var fileExtension = Path.GetExtension(fileToUpload.FileName);
-            //var fileNameGenerated = Path.GetRandomFileName();
 
             var fileRelative = Path.Combine(folderNameOnServer, fileName + fileExtension);
             var filePath = Path.Combine(this.RootPath, fileRelative);

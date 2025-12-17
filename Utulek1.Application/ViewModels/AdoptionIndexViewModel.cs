@@ -11,8 +11,7 @@ namespace Utulek1.Application.ViewModels
     {
         public IList<Animal> Animals { get; set; } = new List<Animal>();
 
-        // Seznam ID zvířat, o která uživatel už požádal.
-        // Používáme HashSet pro super-rychlé vyhledávání.
+
         public HashSet<int> UserRequestedAnimalIds { get; set; } = new HashSet<int>();
     }
 }

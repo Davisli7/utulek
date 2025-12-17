@@ -10,6 +10,6 @@ namespace Utulek1.Application.ViewModels
     public class AdoptionDetailViewModel
     {
         public Animal Animal { get; set; }
-        public bool HasActiveRequest { get; set; } = false; // Má uživatel aktivní žádost o TOTO zvíře?
+        public bool HasActiveRequest { get; set; } = false; 
     }
 }

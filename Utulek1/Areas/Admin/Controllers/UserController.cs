@@ -22,11 +22,9 @@ namespace Utulek1.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string? searchEmail, string? roleFilter)
         {
-            // Uložíme si aktuální filtry, abychom je mohli ve View znovu předvyplnit
             ViewBag.CurrentSearchEmail = searchEmail;
             ViewBag.CurrentRoleFilter = roleFilter;
 
-            // Zavoláme službu s filtry
             var users = await _userAppService.SelectAll(searchEmail, roleFilter);
 
             return View(users);
@@ -35,7 +33,6 @@ namespace Utulek1.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            // Získáme ID přihlášeného admina
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser == null) return RedirectToAction(nameof(Index));
 

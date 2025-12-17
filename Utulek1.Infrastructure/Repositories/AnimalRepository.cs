@@ -23,19 +23,15 @@ namespace Utulek1.Infrastructure.Repositories
 
         public bool DeletePhoto(int photoId)
         {
-            // 1. Najdeme fotku podle ID
             var photo = _context.Photos.FirstOrDefault(p => p.PhotoID == photoId);
 
-            // Pokud neexistuje, vrátíme false
             if (photo == null)
             {
                 return false;
             }
 
-            // 2. Smažeme ji z DbSetu (příprava SQL DELETE)
             _context.Photos.Remove(photo);
 
-            // 3. Potvrdíme změny do databáze
             _context.SaveChanges();
 
             return true;

@@ -13,13 +13,11 @@ namespace Utulek1.Domain.Validation
         {
             if (value is DateTime date)
             {
-                // Porovnáme s dnešním dnem (Date ořízne čas)
                 if (date.Date > DateTime.Now.Date)
                 {
                     return new ValidationResult(ErrorMessage);
                 }
             }
-            // Null hodnoty neřešíme (to dělá [Required]), takže vracíme Success
             return ValidationResult.Success;
         }
     }

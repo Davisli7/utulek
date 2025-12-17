@@ -6,7 +6,7 @@ using Utulek1.Domain.Enums;
 namespace Utulek1.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin, Manager")] // DŮLEŽITÉ: Zabezpečení
+    [Authorize(Roles = "Admin, Manager")] 
     public class AdoptionController : Controller
     {
         private readonly IAdoptionAppService _adoptionAppService;
@@ -19,11 +19,9 @@ namespace Utulek1.Areas.Admin.Controllers
         
         public IActionResult Index(string? searchEmail, AdoptionRequestStatus? statusFilter)
         {
-            // Uložíme filtry do ViewBag pro zachování ve formuláři
             ViewBag.CurrentSearchEmail = searchEmail;
             ViewBag.CurrentStatusFilter = statusFilter;
 
-            // Zavoláme službu s filtry
             var requests = _adoptionAppService.Select(searchEmail, statusFilter);
 
             return View(requests);
@@ -32,7 +30,6 @@ namespace Utulek1.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult ChangeStatus(int requestId, AdoptionRequestStatus status)
         {
-            // Zavoláme službu, která změní status žádosti A TAKÉ status zvířete
             _adoptionAppService.UpdateStatus(requestId, status);
 
             return RedirectToAction(nameof(Index));

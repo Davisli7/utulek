@@ -27,7 +27,6 @@ namespace Utulek1.Application.Implementation
 
             foreach (var user in users)
             {
-                // Získáme role uživatele (async operace, proto to nejde jednoduše v LINQ Selectu)
                 var roles = await _userManager.GetRolesAsync(user);
 
                 userList.Add(new UserListItemViewModel
@@ -37,25 +36,20 @@ namespace Utulek1.Application.Implementation
                     Email = user.Email,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
-                    Role = roles.FirstOrDefault() ?? "Zákazník" // Pokud nemá roli, je to zákazník
+                    Role = roles.FirstOrDefault() ?? "Zákazník" 
                 });
             }
 
-            // --- FILTROVÁNÍ ---
 
-            // 1. Filtr podle Emailu
             if (!string.IsNullOrEmpty(searchEmail))
             {
-                // Používáme CurrentCultureIgnoreCase, aby nezáleželo na velkých/malých písmenech
                 userList = userList.Where(u => u.Email != null &&
                                                u.Email.Contains(searchEmail, StringComparison.CurrentCultureIgnoreCase))
                                    .ToList();
             }
 
-            // 2. Filtr podle Role
             if (!string.IsNullOrEmpty(roleFilter) && roleFilter != "All")
             {
-                // U rolí filtrujeme přesnou shodu (např. jen "Manager")
                 userList = userList.Where(u => u.Role == roleFilter).ToList();
             }
 
@@ -64,32 +58,26 @@ namespace Utulek1.Application.Implementation
 
         public async Task<bool> Delete(int id, int currentUserId)
         {
-            // OCHRANA: Nemůžu smazat sám sebe
             if (id == currentUserId) return false;
 
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (user == null) return false;
 
-            // Smazání uživatele
             var result = await _userManager.DeleteAsync(user);
             return result.Succeeded;
         }
 
         public async Task<bool> ChangeRole(int id, string newRole, int currentUserId)
         {
-            // OCHRANA: Nemůžu měnit roli sobě (abych se neomylem sesadil z Admina)
             if (id == currentUserId) return false;
 
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (user == null) return false;
 
-            // 1. Získáme aktuální role
             var currentRoles = await _userManager.GetRolesAsync(user);
 
-            // 2. Odebereme všechny stávající role
             await _userManager.RemoveFromRolesAsync(user, currentRoles);
 
-            // 3. Přidáme novou roli
             var result = await _userManager.AddToRoleAsync(user, newRole);
 
             return result.Succeeded;

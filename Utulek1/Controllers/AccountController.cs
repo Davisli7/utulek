@@ -20,7 +20,6 @@ namespace Utulek1.Controllers
             _logger = logger;
         }
 
-        // --- PŘIHLÁŠENÍ ---
         [HttpGet]
         public IActionResult Login(string? returnUrl = null)
         {
@@ -35,13 +34,11 @@ namespace Utulek1.Controllers
 
             if (ModelState.IsValid)
             {
-                // Přihlášení uživatele
                 var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, lockoutOnFailure: false);
 
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("Uživatel '{UserName}' se úspěšně přihlásil.", model.Username);
-                    // Pokud existuje ReturnUrl (uživatel chtěl někam jít), vrátíme ho tam, jinak na Home
                     if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                         return Redirect(returnUrl);
                     else
@@ -57,7 +54,6 @@ namespace Utulek1.Controllers
             return View(model);
         }
 
-        // --- REGISTRACE ---
         [HttpGet]
         public IActionResult Register()
         {
@@ -85,10 +81,8 @@ namespace Utulek1.Controllers
 
                     _logger.LogInformation("Nový uživatel se registroval: '{UserName}' (ID: {UserId}, Email: {Email}).",
                         user.UserName, user.Id, user.Email);
-                    // Automaticky přiřadíme roli "Customer"
                     await _userManager.AddToRoleAsync(user, "Customer");
 
-                    // A rovnou ho přihlásíme
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }
@@ -104,7 +98,6 @@ namespace Utulek1.Controllers
             return View(model);
         }
 
-        // --- ODHLÁŠENÍ ---
         public async Task<IActionResult> Logout()
         {
             var userName = User.Identity?.Name;
@@ -116,7 +109,6 @@ namespace Utulek1.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        // --- PŘÍSTUP ZAMÍTNUT ---
         public IActionResult AccessDenied()
         {
             return View();

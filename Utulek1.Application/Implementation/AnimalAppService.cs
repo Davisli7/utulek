@@ -28,37 +28,30 @@ namespace Utulek1.Application.Implementation
 
         public IList<Animal> Select(string? searchName = null, int? speciesId = null, string? status = null)
         {
-            // Začneme dotazem (IQueryable), ještě neposíláme do DB
             IQueryable<Animal> query = _utulekDbContext.Animals
                                        .Include(a => a.Species)
                                        .Include(a => a.Breed)
-                                       .Include(a => a.Photos); // Načteme i fotky pro náhledy
-
-            // 1. Filtr podle Jména
+                                       .Include(a => a.Photos);
             if (!string.IsNullOrEmpty(searchName))
             {
                 query = query.Where(a => a.Name.Contains(searchName));
             }
 
-            // 2. Filtr podle Druhu (SpeciesID)
             if (speciesId.HasValue)
             {
                 query = query.Where(a => a.SpeciesID == speciesId.Value);
             }
 
-            // 3. Filtr podle Statusu (String)
             if (!string.IsNullOrEmpty(status) && status != "All")
             {
                 query = query.Where(a => a.Status == status);
             }
 
-            // Seřadíme podle ID nebo jména a pošleme dotaz do databáze
             return query.OrderByDescending(a => a.AnimalID).ToList();
         }
 
         public Animal? Select(int id)
         {
-            // Načteme zvíře i s fotkami, abychom je mohli v editaci zobrazit
             return _utulekDbContext.Animals
                                    .Include(a => a.Photos)
                                    .Include(a => a.Breed)    
@@ -66,7 +59,6 @@ namespace Utulek1.Application.Implementation
                                    .FirstOrDefault(a => a.AnimalID == id);
         }
 
-        // Přidejte tyto dvě metody do třídy AnimalAppService
 
         public IList<Species> SelectSpecies()
         {
@@ -84,14 +76,12 @@ namespace Utulek1.Application.Implementation
 
             if (uploadedFiles != null && uploadedFiles.Any())
             {
-                // Inicializujeme kolekci, pokud je null
                 animal.Photos ??= new List<Photo>();
 
                 foreach (var file in uploadedFiles)
                 {
                     string imageSrc = _fileUploadService.FileUpload(file, Path.Combine("img", "animals"));
 
-                    // Přidáme nový objekt Photo do kolekce
                     animal.Photos.Add(new Photo { PhotoURL = imageSrc });
                 }
             }
@@ -102,14 +92,12 @@ namespace Utulek1.Application.Implementation
 
         public void Update(Animal animal, IEnumerable<IFormFile> uploadedFiles)
         {
-            // Najdeme původní záznam v databázi (včetně fotek)
             Animal? existingAnimal = _utulekDbContext.Animals
                                                      .Include(a => a.Photos)
                                                      .FirstOrDefault(a => a.AnimalID == animal.AnimalID);
 
             if (existingAnimal != null)
             {
-                // Aktualizujeme základní údaje
                 existingAnimal.Name = animal.Name;
                 existingAnimal.Age = animal.Age;
                 existingAnimal.Description = animal.Description;
@@ -118,30 +106,25 @@ namespace Utulek1.Application.Implementation
                 existingAnimal.Status = animal.Status;
                 existingAnimal.ArrivalDate = animal.ArrivalDate;
 
-                // Pokud byly nahrány NOVÉ fotky, přidáme je k těm stávajícím
                 if (uploadedFiles != null && uploadedFiles.Any())
                 {
-                    // Inicializace listu, kdyby byl náhodou null (což by díky Include neměl být)
                     if (existingAnimal.Photos == null)
                         existingAnimal.Photos = new List<Photo>();
 
                     foreach (var file in uploadedFiles)
                     {
-                        // Použijeme tvou existující službu pro nahrání souboru
                         string imageSrc = _fileUploadService.FileUpload(file, Path.Combine("img", "animals"));
 
                         existingAnimal.Photos.Add(new Photo { PhotoURL = imageSrc });
                     }
                 }
 
-                // Uložíme změny do databáze
                 _utulekDbContext.SaveChanges();
             }
         }
 
         public bool DeletePhoto(int photoId)
         {
-            // Jen předáme požadavek dál do Repository
             return _animalRepository.DeletePhoto(photoId);
         }
 

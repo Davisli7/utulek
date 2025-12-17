@@ -23,31 +23,27 @@ namespace Utulek1.Application.Implementation
 
         public IList<AdoptionRequest> Select(string? searchEmail = null, AdoptionRequestStatus? statusFilter = null)
         {
-            // Začneme dotazem na všechny žádosti vč. vazeb
             IQueryable<AdoptionRequest> query = _dbContext.AdoptionRequests
-                                                .Include(ar => ar.Animal) // Potřebujeme pro zobrazení jména zvířete
-                                                .Include(ar => ar.User);  // Potřebujeme pro email uživatele
+                                                .Include(ar => ar.Animal) 
+                                                .Include(ar => ar.User); 
 
-            // 1. Filtr podle Emailu
             if (!string.IsNullOrEmpty(searchEmail))
             {
                 query = query.Where(ar => ar.User.Email.Contains(searchEmail));
             }
 
-            // 2. Filtr podle Statusu
             if (statusFilter.HasValue)
             {
                 query = query.Where(ar => ar.Status == statusFilter.Value);
             }
 
-            // Seřadíme od nejnovějších a vrátíme seznam
             return query.OrderByDescending(ar => ar.CreatedAt).ToList();
         }
 
         public IList<AdoptionRequest> SelectForUser(int userId)
         {
             return _dbContext.AdoptionRequests
-                             .Include(ar => ar.Animal) // Načteme i info o zvířeti (kvůli jménu a fotce)
+                             .Include(ar => ar.Animal)
                              .Where(ar => ar.UserID == userId)
                              .OrderByDescending(ar => ar.CreatedAt)
                              .ToList();
@@ -55,7 +51,6 @@ namespace Utulek1.Application.Implementation
 
         public string? Create(int userId, int animalId)
         {
-            // 1. KONTROLA: Má uživatel aktivní žádost? (Pending nebo Approved)
             bool hasActiveRequest = _dbContext.AdoptionRequests.Any(ar =>
                 ar.UserID == userId &&
                 (ar.Status == AdoptionRequestStatus.Pending || ar.Status == AdoptionRequestStatus.Approved));
@@ -65,14 +60,12 @@ namespace Utulek1.Application.Implementation
                 return "Můžete mít pouze jednu aktivní žádost o adopci.";
             }
 
-            // 2. KONTROLA: Je zvíře stále k dispozici?
             var animal = _dbContext.Animals.Find(animalId);
             if (animal == null || animal.Status != "K adopci")
             {
                 return "Toto zvíře již není k dispozici pro adopci.";
             }
 
-            // 3. VYTVOŘENÍ ŽÁDOSTI
             var request = new AdoptionRequest
             {
                 UserID = userId,
@@ -84,7 +77,7 @@ namespace Utulek1.Application.Implementation
             _dbContext.AdoptionRequests.Add(request);
             _dbContext.SaveChanges();
 
-            return null; // Žádná chyba = úspěch
+            return null; 
         }
 
         public void UpdateStatus(int requestId, AdoptionRequestStatus newStatus)
@@ -95,25 +88,20 @@ namespace Utulek1.Application.Implementation
 
             if (request != null)
             {
-                // Změna statusu samotné žádosti
                 request.Status = newStatus;
 
-                // --- SYNCHRONIZACE STATUSU ZVÍŘETE ---
-                // Pokud byla žádost SCHVÁLENA -> Zvíře je REZERVOVÁNO
+
                 if (newStatus == AdoptionRequestStatus.Approved)
                 {
                     if (request.Animal != null) request.Animal.Status = "Zarezervováno";
                 }
-                // Pokud byla adopce DOKONČENA -> Zvíře je ADOPTOVÁNO
                 else if (newStatus == AdoptionRequestStatus.Completed)
                 {
                     if (request.Animal != null) request.Animal.Status = "Adoptováno";
                 }
-                // Pokud byla ZRUŠENA nebo ZAMÍTNUTA a zvíře bylo rezervované touto žádostí -> Zpět k ADOPCI
                 else if ((newStatus == AdoptionRequestStatus.Rejected || newStatus == AdoptionRequestStatus.Cancelled)
                          && request.Animal.Status == "Zarezervováno")
                 {
-                    // Tady by šlo přidat logiku, že to vrátíme jen pokud to nezarezervoval mezitím někdo jiný (což by neměl)
                     request.Animal.Status = "K adopci";
                 }
 
@@ -123,27 +111,22 @@ namespace Utulek1.Application.Implementation
 
         public bool CancelRequest(int requestId, int userId)
         {
-            // Najdeme žádost i se zvířetem
             var request = _dbContext.AdoptionRequests
                                   .Include(ar => ar.Animal)
                                   .FirstOrDefault(ar => ar.AdoptionRequestID == requestId);
 
-            // Kontrola: Existuje? A patří opravdu tomu přihlášenému uživateli?
             if (request == null || request.UserID != userId)
             {
-                return false; // Neoprávněný přístup nebo neexistuje
+                return false; 
             }
 
-            // Můžeme zrušit jen aktivní žádosti (ne ty, co už jsou dokončené nebo zamítnuté)
             if (request.Status == AdoptionRequestStatus.Completed || request.Status == AdoptionRequestStatus.Rejected)
             {
                 return false;
             }
 
-            // Změna statusu žádosti
             request.Status = AdoptionRequestStatus.Cancelled;
 
-            // SYNCHRONIZACE: Pokud bylo zvíře "Zarezervováno" touto žádostí, musíme ho uvolnit
             if (request.Animal != null && request.Animal.Status == "Zarezervováno")
             {
                 request.Animal.Status = "K adopci";

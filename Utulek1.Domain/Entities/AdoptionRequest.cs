@@ -22,10 +22,9 @@ namespace Utulek1.Domain.Entities
         [ForeignKey(nameof(UserID))]
         public virtual User User { get; set; }
 
-        // Nové vlastnosti
-        public AdoptionRequestStatus Status { get; set; } = AdoptionRequestStatus.Pending; // Výchozí stav je "Čeká"
+        public AdoptionRequestStatus Status { get; set; } = AdoptionRequestStatus.Pending; 
 
-        public DateTime CreatedAt { get; set; } = DateTime.Now; // Automaticky nastavíme čas vytvoření
+        public DateTime CreatedAt { get; set; } = DateTime.Now; 
     }
 
 }

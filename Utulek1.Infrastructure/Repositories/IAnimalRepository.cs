@@ -14,7 +14,6 @@ namespace Utulek1.Infrastructure.Repositories
         Task AddAsync(Animal animal);
         Task UpdateAsync(Animal animal);
         Task DeleteAsync(int id);
-        // Metoda pro smazání záznamu z databáze
         bool DeletePhoto(int photoId);
     }
 }

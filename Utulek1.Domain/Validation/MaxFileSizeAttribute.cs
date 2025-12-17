@@ -22,7 +22,6 @@ namespace Utulek1.Domain.Validation
         {
             if (value == null) return ValidationResult.Success;
 
-            // Přepočet MB na Byty (1 MB = 1024 * 1024 Bytů)
             long maxBytes = _maxFileSizeInMb * 1024 * 1024;
 
             ValidationResult? CheckSize(IFormFile file)

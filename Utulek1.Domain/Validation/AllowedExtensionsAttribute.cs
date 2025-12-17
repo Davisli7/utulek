@@ -20,10 +20,8 @@ namespace Utulek1.Domain.Validation
 
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            // Pokud nic nenahráváme, je to OK (povinnost řeší [Required])
             if (value == null) return ValidationResult.Success;
 
-            // Pomocná metoda pro kontrolu jednoho souboru
             ValidationResult? CheckFile(IFormFile file)
             {
                 var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
@@ -34,13 +32,11 @@ namespace Utulek1.Domain.Validation
                 return ValidationResult.Success;
             }
 
-            // 1. Pokud je to jeden soubor
             if (value is IFormFile file)
             {
                 return CheckFile(file);
             }
 
-            // 2. Pokud je to seznam souborů (IEnumerable<IFormFile>)
             if (value is IEnumerable<IFormFile> files)
             {
                 foreach (var f in files)

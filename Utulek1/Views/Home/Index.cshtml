@@ -104,14 +104,12 @@
 
 @section Styles {
     <style>
-        /* Nastavení pevné výšky Carouselu */
         .hero-img {
-            height: 65vh; /* 65% výšky obrazovky - ideální pro moderní weby */
-            object-fit: cover; /* Ořízne fotku tak, aby vyplnila prostor, ale nedeformovala se */
-            min-height: 400px; /* Aby to na mobilech nebylo moc úzké */
+            height: 65vh; 
+            object-fit: cover; 
+            min-height: 400px;
         }
 
-        /* Tmavý gradient přes fotku, aby byl text čitelný */
         .carousel-overlay {
             position: absolute;
             top: 0;
@@ -121,16 +119,14 @@
             background: linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0));
         }
 
-        /* Stín pod textem */
         .text-shadow {
             text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
         }
 
-        /* Efekt při najetí na karty */
         .transition-hover:hover {
             transform: translateY(-5px);
             transition: transform 0.3s ease;
-            background-color: #fff !important; /* Změna pozadí na čistě bílou */
+            background-color: #fff !important; 
         }
     </style>
 }

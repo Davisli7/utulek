@@ -18,7 +18,6 @@ namespace Utulek1.Infrastructure.Repositories
 
         public IList<SystemLog> Select()
         {
-            // Seřadíme logy od nejnovějších
             return _dbContext.SystemLogs.OrderByDescending(x => x.TimeStamp).ToList();
         }
 
