@@ -51,6 +51,9 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 
+builder.Services.AddScoped<ISystemLogRepository, SystemLogRepository>();
+builder.Services.AddScoped<ISystemLogAppService, SystemLogAppService>();
+
 builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
 // --- NOVÉ: REGISTRACE SEEDERU ---
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();

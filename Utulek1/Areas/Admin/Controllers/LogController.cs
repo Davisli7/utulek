@@ -2,38 +2,33 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Utulek1.Infrastructure;
+using Utulek1.Application.Abstraction;
 using SystemLog = Utulek1.Domain.Entities.SystemLog;
 
 namespace Utulek1.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")] // Přístup jen pro Admina
+    [Authorize(Roles = "Admin")] 
     public class LogController : Controller
     {
-        private readonly UtulekDbContext _context;
+        private readonly ISystemLogAppService _logAppService;
 
-        public LogController(UtulekDbContext context)
+        public LogController(ISystemLogAppService logAppService)
         {
-            _context = context;
+            _logAppService = logAppService;
         }
 
-        public async Task<IActionResult> Index(string? levelFilter)
+        public IActionResult Index()
         {
-            var query = _context.SystemLogs.AsQueryable();
-
-            // Filtrace podle Levelu (Info, Error...)
-            if (!string.IsNullOrEmpty(levelFilter) && levelFilter != "All")
-            {
-                query = query.Where(l => l.Level == levelFilter);
-            }
-
-            // Seřadíme od nejnovějších a vezmeme posledních 100
-            var logs = await query.OrderByDescending(l => l.TimeStamp)
-                                  .Take(100)
-                                  .ToListAsync();
-
-            ViewBag.CurrentLevelFilter = levelFilter;
+            // Voláme službu, ne databázi
+            var logs = _logAppService.Select();
             return View(logs);
+        }
+
+        public IActionResult Delete(int id)
+        {
+            _logAppService.Delete(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }
