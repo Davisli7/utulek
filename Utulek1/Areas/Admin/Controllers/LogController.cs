@@ -20,7 +20,6 @@ namespace Utulek1.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            // Voláme službu, ne databázi
             var logs = _logAppService.Select();
             return View(logs);
         }
