@@ -1,83 +1,133 @@
-﻿@model IList<Utulek1.Domain.Entities.AdoptionRequest>
+﻿@using Utulek1.Domain.Entities
 @using Utulek1.Domain.Enums
+@model IList<AdoptionRequest>
 
 @{
     ViewData["Title"] = "Moje adopce";
 }
 
-<div class="container mt-5">
-    <h1 class="mb-4">Moje žádosti o adopci</h1>
+<div class="container py-5">
+
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h1 class="fw-bold mb-0">Moje žádosti o adopci</h1>
+        <a asp-action="Index" class="btn btn-outline-primary rounded-pill">
+            <i class="bi bi-plus-lg"></i> Hledat dalšího parťáka
+        </a>
+    </div>
 
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+        <div class="alert alert-success shadow-sm rounded-3 border-0 mb-4">
+            <i class="bi bi-check-circle-fill me-2"></i> @TempData["SuccessMessage"]
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger shadow-sm rounded-3 border-0 mb-4">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i> @TempData["ErrorMessage"]
+        </div>
     }
 
     @if (Model != null && Model.Any())
     {
         <div class="row">
-            @foreach (var request in Model)
-            {
-                <div class="col-md-12 mb-3">
-                    <div class="card shadow-sm">
-                        <div class="card-body d-flex align-items-center justify-content-between">
+            <div class="col-lg-10 mx-auto">
+                <div class="d-flex flex-column gap-3">
+                    @foreach (var request in Model)
+                    {
+                        <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+                            <div class="card-body p-0">
+                                <div class="row g-0 align-items-center">
 
-                            <div class="d-flex align-items-center">
-                                @if (request.Animal != null && request.Animal.Photos != null && request.Animal.Photos.Any())
-                                {
-                                    <img src="@request.Animal.Photos.First().PhotoURL"
-                                         style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%; margin-right: 15px;" />
-                                }
-                                <div>
-                                    <h4 class="mb-0">@request.Animal?.Name</h4>
-                                    <small class="text-muted">Žádost vytvořena: @request.CreatedAt.ToString("dd.MM.yyyy HH:mm")</small>
+                                    <div class="col-md-2 col-sm-3 bg-light d-flex align-items-center justify-content-center" style="min-height: 120px;">
+                                        @if (request.Animal.Photos != null && request.Animal.Photos.Any())
+                                        {
+                                            <img src="@request.Animal.Photos.First().PhotoURL" class="img-fluid w-100 h-100" style="object-fit: cover; max-height: 150px;" alt="@request.Animal.Name">
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-camera text-muted display-6"></i>
+                                        }
+                                    </div>
+
+                                    <div class="col-md-7 col-sm-9 p-4">
+                                        <div class="d-flex align-items-center mb-2 flex-wrap gap-2">
+                                            <h4 class="mb-0 fw-bold me-2">@request.Animal.Name</h4>
+
+                                            @if (request.Status == AdoptionRequestStatus.Pending)
+                                            {
+                                                <span class="badge bg-warning text-dark border border-warning-subtle rounded-pill">
+                                                    <i class="bi bi-hourglass-split"></i> Čeká na schválení
+                                                </span>
+                                            }
+                                            else if (request.Status == AdoptionRequestStatus.Approved)
+                                            {
+                                                <span class="badge bg-success border border-success-subtle rounded-pill">
+                                                    <i class="bi bi-check-lg"></i> Schváleno - Rezervováno
+                                                </span>
+                                            }
+                                            else if (request.Status == AdoptionRequestStatus.Rejected)
+                                            {
+                                                <span class="badge bg-danger border border-danger-subtle rounded-pill">Zamítnuto</span>
+                                            }
+                                            else if (request.Status == AdoptionRequestStatus.Completed)
+                                            {
+                                                <span class="badge bg-info text-dark border border-info-subtle rounded-pill">Adoptováno</span>
+                                            }
+                                            else if (request.Status == AdoptionRequestStatus.Cancelled)
+                                            {
+                                                <span class="badge bg-secondary border border-secondary-subtle rounded-pill">Zrušeno</span>
+                                            }
+                                        </div>
+
+                                        <p class="text-muted mb-1 small">
+                                            <i class="bi bi-calendar3 me-1"></i> Žádost odeslána: <strong>@request.CreatedAt.ToString("d. M. yyyy")</strong>
+                                        </p>
+
+                                        @if (request.Status == AdoptionRequestStatus.Approved)
+                                        {
+                                            <p class="text-success small mb-0 fw-bold">
+                                                <i class="bi bi-info-circle-fill"></i> Prosím, kontaktujte nás pro domluvení předání.
+                                            </p>
+                                        }
+                                    </div>
+
+                                    <div class="col-md-3 p-4 text-md-end border-start-md">
+
+                                        <a asp-action="Detail" asp-route-id="@request.AnimalID" class="btn btn-outline-secondary btn-sm w-100 mb-2">
+                                            Zobrazit zvíře
+                                        </a>
+
+                                        @if (request.Status == AdoptionRequestStatus.Pending || request.Status == AdoptionRequestStatus.Approved)
+                                        {
+                                            <form asp-action="Cancel" method="post" onsubmit="return confirm('Opravdu chcete zrušit tuto žádost?');">
+                                                <input type="hidden" name="requestId" value="@request.AdoptionRequestID" />
+                                                <button type="submit" class="btn btn-danger btn-sm w-100 opacity-75">
+                                                    <i class="bi bi-x-circle"></i> Zrušit žádost
+                                                </button>
+                                            </form>
+                                        }
+                                    </div>
+
                                 </div>
                             </div>
-
-                            <div>
-                                @if (request.Status == AdoptionRequestStatus.Pending)
-                                {
-                                    <span class="badge bg-warning text-dark fs-6">Čeká na schválení</span>
-                                    <form asp-action="Cancel" method="post" onsubmit="return confirm('Opravdu chcete zrušit tuto žádost?');">
-                                        <input type="hidden" name="requestId" value="@request.AdoptionRequestID" />
-                                        <button type="submit" class="btn btn-outline-danger btn-sm mt-1">Zrušit žádost</button>
-                                    </form>
-                                }
-                                else if (request.Status == AdoptionRequestStatus.Approved)
-                                {
-                                    <span class="badge bg-success fs-6">Schváleno - Rezervováno</span>
-                                    <div class="text-muted small mt-1">Kontaktujte nás pro převzetí.</div>
-                                    <form asp-action="Cancel" method="post" onsubmit="return confirm('Opravdu zrušit? Zvíře bude uvolněno pro jiné zájemce.');">
-                                        <input type="hidden" name="requestId" value="@request.AdoptionRequestID" />
-                                        <button type="submit" class="btn btn-outline-danger btn-sm mt-1">Zrušit rezervaci</button>
-                                    </form>
-                                }
-                                else if (request.Status == AdoptionRequestStatus.Rejected)
-                                {
-                                    <span class="badge bg-danger fs-6">Zamítnuto</span>
-                                }
-                                else if (request.Status == AdoptionRequestStatus.Completed)
-                                {
-                                    <span class="badge bg-primary fs-6">Adoptováno</span>
-                                }
-                                else if (request.Status == AdoptionRequestStatus.Cancelled)
-                                {
-                                    <span class="badge bg-secondary fs-6">Zrušeno vámi</span>
-                                }
-                            </div>
-
-                            
-
                         </div>
-                    </div>
+                    }
                 </div>
-            }
+            </div>
         </div>
     }
     else
     {
-        <div class="alert alert-info">
-            Zatím nemáte žádné žádosti o adopci. <a asp-action="Index">Podívejte se na naše zvířátka!</a>
+        <div class="text-center py-5 bg-light rounded-4 shadow-sm mx-auto col-lg-8">
+            <div class="mb-3 text-muted opacity-25">
+                <i class="bi bi-basket display-1"></i>
+            </div>
+            <h3>Zatím žádné žádosti</h3>
+            <p class="text-muted">Vyhlídněte si svého nového kamaráda v nabídce.</p>
+            <a asp-action="Index" class="btn btn-primary px-4 py-2 fw-bold mt-2">
+                Přejít do nabídky
+            </a>
         </div>
     }
 </div>

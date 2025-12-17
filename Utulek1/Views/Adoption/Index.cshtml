@@ -4,9 +4,11 @@
     ViewData["Title"] = "Nabídka adopce";
 }
 
-<div class="text-center mb-5">
-    <h1 class="display-4 fw-bold">Naši svěřenci hledají domov</h1>
-    <p class="lead text-muted">Vyberte si parťáka pro život.</p>
+<div class="bg-primary bg-opacity-10 py-5 mb-5">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold text-primary">Naši svěřenci</h1>
+        <p class="lead text-muted mb-0">Hledají domov, lásku a plnou misku. Vyberte si svého parťáka.</p>
+    </div>
 </div>
 
 <div class="container mb-5">
@@ -38,7 +40,6 @@
                     <button type="submit" class="btn btn-primary w-100 fw-bold">
                         <i class="bi bi-search"></i> Hledat
                     </button>
-
                     <a asp-action="Index" class="btn btn-outline-secondary w-100">
                         <i class="bi bi-x-circle"></i> Zrušit
                     </a>
@@ -50,7 +51,7 @@
 
 @if (TempData["ErrorMessage"] != null)
 {
-    <div class="container">
+    <div class="container mb-4">
         <div class="alert alert-danger shadow-sm">@TempData["ErrorMessage"]</div>
     </div>
 }
