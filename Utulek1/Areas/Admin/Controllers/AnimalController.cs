@@ -20,10 +20,21 @@ namespace Utulek1.Areas.Admin.Controllers
         }
 
         // GET: /<controller>/
-        public IActionResult Select()
+        public IActionResult Select(string? searchName, int? speciesId, string? status)
         {
+            // 1. Uložíme filtry do ViewBag pro zobrazení ve View
+            ViewBag.CurrentSearchName = searchName;
+            ViewBag.CurrentSpeciesId = speciesId;
+            ViewBag.CurrentStatus = status;
 
-            IList<Animal> animals = _animalAppService.Select();
+            // 2. Naplníme Dropdown pro Druhy (Species)
+            // Použijeme metodu SelectSpecies, kterou už ve službě máme
+            var speciesList = _animalAppService.SelectSpecies();
+            ViewBag.SpeciesList = new SelectList(speciesList, "SpeciesID", "Name", speciesId);
+
+            // 3. Načteme vyfiltrovaná data
+            IList<Animal> animals = _animalAppService.Select(searchName, speciesId, status);
+
             return View(animals);
         }
 

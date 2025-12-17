@@ -10,8 +10,7 @@ namespace Utulek1.Application.Abstraction
 {
     public interface IAnimalAppService
     {
-        IList<Animal> Select();
-        Animal? Select(int id); // <--- NOVÁ METODA (načtení jednoho zvířete)
+        IList<Animal> Select(string? searchName = null, int? speciesId = null, string? status = null); Animal? Select(int id); // <--- NOVÁ METODA (načtení jednoho zvířete)
 
         IList<Species> SelectSpecies();
         IList<Breed> SelectBreeds();

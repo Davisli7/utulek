@@ -1,55 +1,144 @@
-﻿@model IList<Animal>
+﻿@model IList<Utulek1.Domain.Entities.Animal>
 
 @{
-    ViewData["Title"] = "Animal Administration";   
+    ViewData["Title"] = "Správa zvířat";
 }
-<h1>@ViewData["Title"]</h1>
 
-<a asp-action="Create">Create Animal</a>
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Správa zvířat</h1>
 
-@{
-    if (Model != null && Model.Count > 0)
-    {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">@nameof(Animal.AnimalID)</th>
-                    <th scope="col">@nameof(Animal.Name)</th>
-                    <th scope="col">@nameof(Animal.Description)</th>
-                    <th scope="col">@nameof(Animal.Status)</th>
-                    <th scope="col">@nameof(Animal.Photos)</th>
-                    <th scope="col">Edit/Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-
-                @for (int i = 0; i < Model.Count; ++i)
-                {
-                    Animal animal = Model[i];
-                    <tr>
-                        <th scope="row">@animal.AnimalID</th>
-                        <td>@animal.Name</td>
-                        <td>@animal.Description</td>
-                        <td>@animal.Status</td>
-                        <td>@animal.Photos.FirstOrDefault()?.PhotoURL</td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@animal.AnimalID" class="btn btn-warning btn-sm mx-1">Edit</a>
-                            <a asp-action="Delete" asp-route-id="@animal.AnimalID" onclick="return ConfirmDelete();">Delete</a>
-                        </td>
+        <a asp-action="Create" class="btn btn-success">
+            <i class="bi bi-plus-lg"></i> Přidat nové zvíře
+        </a>
 
 
-                    </tr>
-                }
 
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <p>Animal table is empty!</p>
-    }
-}
-@section Scripts
-{
-    <script src="~/js/dialogs.js"></script>
-}
+
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-body bg-light">
+            <form method="get" asp-action="Select" class="row g-3 align-items-end">
+
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Jméno zvířete:</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                        <input type="text" name="searchName" class="form-control"
+                               placeholder="Hledat..."
+                               value="@ViewBag.CurrentSearchName" />
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Druh:</label>
+                    <select name="speciesId" class="form-select" asp-items="ViewBag.SpeciesList">
+                        <option value="">-- Všechny druhy --</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Status:</label>
+                    <select name="status" class="form-select">
+                        <option value="" selected="@(ViewBag.CurrentStatus == null)">-- Všechny stavy --</option>
+                        <option value="K adopci" selected="@(ViewBag.CurrentStatus == "K adopci")">K adopci</option>
+                        <option value="Zarezervováno" selected="@(ViewBag.CurrentStatus == "Zarezervováno")">Zarezervováno</option>
+                        <option value="Adoptováno" selected="@(ViewBag.CurrentStatus == "Adoptováno")">Adoptováno</option>
+                        <option value="Nedostupné" selected="@(ViewBag.CurrentStatus == "Nedostupné")">Nedostupné</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary me-2">Filtrovat</button>
+                    <a asp-action="Select" class="btn btn-outline-secondary">Zrušit</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-body">
+            @if (Model != null && Model.Any())
+            {
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 100px;">Foto</th>
+                            <th>Jméno</th>
+                            <th>Druh / Plemeno</th>
+                            <th>Věk</th>
+                            <th>Status</th>
+                            <th class="text-end">Akce</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @if (item.Photos != null && item.Photos.Any())
+                                    {
+                                        <img src="@item.Photos.First().PhotoURL" class="rounded" style="width: 60px; height: 60px; object-fit: cover;" />
+                                    }
+                                    else
+                                    {
+                                        <div class="bg-secondary text-white d-flex align-items-center justify-content-center rounded" style="width: 60px; height: 60px;">
+                                            <i class="bi bi-camera"></i>
+                                        </div>
+                                    }
+                                </td>
+
+                                <td class="fw-bold">@item.Name</td>
+
+                                <td>
+                                    <div>@item.Species?.Name</div>
+                                    <small class="text-muted">@item.Breed?.Name</small>
+                                </td>
+
+                                <td>@item.Age let</td>
+
+                                <td>
+                                    @if (item.Status == "K adopci")
+                                    {
+                                        <span class="badge bg-success">K adopci</span>
+                                    }
+                                    else if (item.Status == "Zarezervováno")
+                                    {
+                                        <span class="badge bg-warning text-dark">Rezervováno</span>
+                                    }
+                                    else if (item.Status == "Adoptováno")
+                                    {
+                                        <span class="badge bg-secondary">Adoptováno</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-light text-dark border">@item.Status</span>
+                                    }
+                                </td>
+
+                                <td class="text-end">
+                                    <div class="btn-group" role="group">
+                                        <a asp-action="Edit" asp-route-id="@item.AnimalID" class="btn btn-primary btn-sm" title="Upravit">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.AnimalID" class="btn btn-danger btn-sm" onclick="return confirm('Opravdu chcete smazat zvíře @item.Name?');" title="Smazat">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="text-center py-5 text-muted">
+                    <i class="bi bi-inbox display-4 d-block mb-3"></i>
+                    <p>Zatím zde nejsou žádná zvířata.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

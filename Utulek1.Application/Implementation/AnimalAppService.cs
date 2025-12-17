@@ -23,13 +23,34 @@ namespace Utulek1.Application.Implementation
             _fileUploadService = fileUploadService ?? throw new ArgumentNullException(nameof(fileUploadService));
         }
 
-        public IList<Animal> Select()
+        public IList<Animal> Select(string? searchName = null, int? speciesId = null, string? status = null)
         {
-            return _utulekDbContext.Animals
-                .Include(a => a.Breed)   // Načti plemeno
-                .Include(a => a.Species) // Načti druh
-                .Include(a => a.Photos)  // Načti fotky (pokud je chceš zobrazovat v seznamu)
-                .ToList();
+            // Začneme dotazem (IQueryable), ještě neposíláme do DB
+            IQueryable<Animal> query = _utulekDbContext.Animals
+                                       .Include(a => a.Species)
+                                       .Include(a => a.Breed)
+                                       .Include(a => a.Photos); // Načteme i fotky pro náhledy
+
+            // 1. Filtr podle Jména
+            if (!string.IsNullOrEmpty(searchName))
+            {
+                query = query.Where(a => a.Name.Contains(searchName));
+            }
+
+            // 2. Filtr podle Druhu (SpeciesID)
+            if (speciesId.HasValue)
+            {
+                query = query.Where(a => a.SpeciesID == speciesId.Value);
+            }
+
+            // 3. Filtr podle Statusu (String)
+            if (!string.IsNullOrEmpty(status) && status != "All")
+            {
+                query = query.Where(a => a.Status == status);
+            }
+
+            // Seřadíme podle ID nebo jména a pošleme dotaz do databáze
+            return query.OrderByDescending(a => a.AnimalID).ToList();
         }
 
         public Animal? Select(int id)
@@ -37,7 +58,7 @@ namespace Utulek1.Application.Implementation
             // Načteme zvíře i s fotkami, abychom je mohli v editaci zobrazit
             return _utulekDbContext.Animals
                                    .Include(a => a.Photos)
-                                   .Include(a => a.Breed)    // <--- PŘIDAT TOTO (načte plemeno)
+                                   .Include(a => a.Breed)    
                                    .Include(a => a.Species)
                                    .FirstOrDefault(a => a.AnimalID == id);
         }
