@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Utulek1.Application.Abstraction;
 using Utulek1.Application.ViewModels;
 using Utulek1.Domain.Entities;
@@ -22,18 +23,27 @@ namespace Utulek1.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<IActionResult> Index(string? searchName, int? speciesId, string? status)
         {
-            // 1. Načteme zvířata
-            IList<Animal> animals = _animalAppService.Select();
+            // 1. Získání seznamu druhů pro Dropdown
+            ViewBag.SpeciesList = new SelectList(_animalAppService.SelectSpecies(), "SpeciesID", "Name", speciesId);
 
-            // 2. Připravíme ViewModel
+            // 2. Uložení filtrů do ViewBag (aby zůstaly vyplněné ve formuláři)
+            ViewBag.CurrentSearchName = searchName;
+            ViewBag.CurrentSpeciesId = speciesId;
+            ViewBag.CurrentStatus = status;
+
+            // 3. Načtení zvířat s použitím filtrů (metodu Select s parametry už v AnimalAppService máte)
+            IList<Animal> animals = _animalAppService.Select(searchName, speciesId, status);
+
+            // 4. Příprava ViewModelu
             var viewModel = new AdoptionIndexViewModel
             {
                 Animals = animals
             };
 
-            // 3. Pokud je uživatel přihlášený, zjistíme jeho aktivní žádosti
+            // 5. Zjištění aktivních žádostí přihlášeného uživatele
             if (User.Identity.IsAuthenticated)
             {
                 var user = await _userManager.GetUserAsync(User);

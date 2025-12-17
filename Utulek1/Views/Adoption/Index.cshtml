@@ -5,75 +5,145 @@
 }
 
 <div class="text-center mb-5">
-    <h1 class="display-4">Naši svěřenci hledají domov</h1>
-    <p class="lead">Vyberte si parťáka pro život.</p>
+    <h1 class="display-4 fw-bold">Naši svěřenci hledají domov</h1>
+    <p class="lead text-muted">Vyberte si parťáka pro život.</p>
+</div>
+
+<div class="container mb-5">
+    <div class="card border-0 shadow-sm bg-light">
+        <div class="card-body p-4">
+            <form method="get" asp-action="Index" class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold small text-uppercase">Hledat podle jména</label>
+                    <input type="text" name="searchName" class="form-control" placeholder="Např. Alík" value="@ViewBag.CurrentSearchName" />
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label fw-bold small text-uppercase">Druh zvířete</label>
+                    <select name="speciesId" class="form-select" asp-items="ViewBag.SpeciesList">
+                        <option value="">Všechny druhy</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label fw-bold small text-uppercase">Dostupnost</label>
+                    <select name="status" class="form-select">
+                        <option value="" selected="@(ViewBag.CurrentStatus == null)">Vše</option>
+                        <option value="K adopci" selected="@(ViewBag.CurrentStatus == "K adopci")">K adopci (Volní)</option>
+                        <option value="Zarezervováno" selected="@(ViewBag.CurrentStatus == "Zarezervováno")">Rezervovaní</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2 d-flex flex-column justify-content-end gap-2">
+                    <button type="submit" class="btn btn-primary w-100 fw-bold">
+                        <i class="bi bi-search"></i> Hledat
+                    </button>
+
+                    <a asp-action="Index" class="btn btn-outline-secondary w-100">
+                        <i class="bi bi-x-circle"></i> Zrušit
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 @if (TempData["ErrorMessage"] != null)
 {
-    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    <div class="container">
+        <div class="alert alert-danger shadow-sm">@TempData["ErrorMessage"]</div>
+    </div>
 }
 
 @if (Model != null && Model.Animals != null && Model.Animals.Any())
 {
-    <section class="py-5">
-        <div class="container px-4 px-lg-5 mt-5">
-            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+    <section class="pb-5">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-md-2 row-cols-xl-4 justify-content-center">
                 @foreach (var animal in Model.Animals)
                 {
                     <div class="col mb-5">
-                        <div class="card h-100 shadow-sm">
+                        <div class="card h-100 border-0 shadow-sm transition-hover">
 
                             @if (animal.Species != null)
                             {
-                                <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem; z-index: 10;">
+                                <div class="badge bg-dark text-white position-absolute shadow-sm" style="top: 1rem; right: 1rem; z-index: 10;">
                                     @animal.Species.Name
                                 </div>
                             }
 
-                            <img class="card-img-top"
-                                 style="height: 200px; object-fit: cover;"
-                                 src="@(animal.Photos?.FirstOrDefault()?.PhotoURL ?? "/img/Carousel/Placeholder.png")"
-                                 alt="@animal.Name" />
+                            <div style="overflow: hidden; border-top-left-radius: var(--bs-card-border-radius); border-top-right-radius: var(--bs-card-border-radius);">
+                                <img class="card-img-top"
+                                     style="height: 250px; object-fit: cover; transition: transform 0.3s;"
+                                     src="@(animal.Photos?.FirstOrDefault()?.PhotoURL ?? "/img/Carousel/Placeholder.png")"
+                                     alt="@animal.Name"
+                                     onmouseover="this.style.transform='scale(1.05)'"
+                                     onmouseout="this.style.transform='scale(1)'" />
+                            </div>
 
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <h5 class="fw-bolder">@animal.Name</h5>
-                                    <p class="text-muted small">@animal.Status</p>
-                                    
-                                    <p class="card-text text-truncate">@animal.Description</p>
+                            <div class="card-body p-4 text-center">
+                                <h5 class="fw-bolder mb-1">@animal.Name</h5>
+
+                                <div class="text-muted small mb-2 fst-italic">
+                                    @animal.Breed?.Name
                                 </div>
+
+                                <div class="mb-3">
+                                    @if (animal.Status == "K adopci")
+                                    {
+                                        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill">K adopci</span>
+                                    }
+                                    else if (animal.Status == "Zarezervováno")
+                                    {
+                                        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill">Rezervováno</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill">@animal.Status</span>
+                                    }
+                                </div>
+
+                                <p class="card-text text-muted small text-truncate">@animal.Description</p>
                             </div>
 
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center">
-                                    <a asp-action="Detail" asp-route-id="@animal.AnimalID" class="btn btn-outline-secondary">
+                                <div class="d-grid gap-2">
+
+                                    <a asp-action="Detail" asp-route-id="@animal.AnimalID" class="btn btn-light border text-dark">
                                         Více informací
                                     </a>
+
                                     @if (User.Identity.IsAuthenticated)
                                     {
-                                        @if (Model.UserRequestedAnimalIds.Contains(animal.AnimalID))
+                                        if (Model.UserRequestedAnimalIds.Contains(animal.AnimalID))
                                         {
-                                            <button class="btn btn-warning mt-auto" disabled>
+                                            <button class="btn btn-warning opacity-75" disabled>
                                                 <i class="bi bi-clock-history"></i> Žádost odeslána
                                             </button>
-                                            <a asp-action="MyAdoptions" class="d-block small mt-1">Zobrazit stav</a>
+
+                                            <a asp-action="MyAdoptions" class="btn btn-outline-dark btn-sm mt-1">
+                                                <i class="bi bi-list-check"></i> Zkontrolovat stav
+                                            </a>
                                         }
-                                        @if (animal.Status == "K adopci")
+                                        else if (animal.Status == "K adopci")
                                         {
                                             <form asp-action="CreateRequest" method="post">
                                                 <input type="hidden" name="animalId" value="@animal.AnimalID" />
-                                                <button type="submit" class="btn btn-primary mt-auto">Mám zájem</button>
+                                                <button type="submit" class="btn btn-primary w-100 shadow-sm fw-bold">
+                                                    <i class="bi bi-heart-fill me-1"></i> Mám zájem
+                                                </button>
                                             </form>
                                         }
                                         else
                                         {
-                                            <button class="btn btn-secondary mt-auto" disabled>Není k dispozici</button>
+                                            <button class="btn btn-secondary" disabled>Není k dispozici</button>
                                         }
                                     }
                                     else
                                     {
-                                        <a asp-controller="Account" asp-action="Login" class="btn btn-outline-dark mt-auto">Přihlaste se pro adopci</a>
+                                        <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary">
+                                            <i class="bi bi-person"></i> Přihlaste se
+                                        </a>
                                     }
                                 </div>
                             </div>
@@ -86,12 +156,20 @@
 }
 else
 {
-    <div class="text-center">
-        <p>Momentálně zde nejsou žádná zvířata k adopci.</p>
+    <div class="text-center py-5">
+        <i class="bi bi-search display-1 text-muted opacity-25"></i>
+        <p class="mt-3 text-muted fs-5">Vašemu filtru neodpovídá žádné zvířátko.</p>
+        <a asp-action="Index" class="btn btn-outline-secondary mt-2">Zrušit filtr a zobrazit vše</a>
     </div>
 }
 
 @section Styles
 {
-    <link rel="stylesheet" href="~/css/shop_home.css" asp-append-version="true" />
+    <style>
+        .transition-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
+            transition: all 0.3s ease;
+        }
+    </style>
 }
