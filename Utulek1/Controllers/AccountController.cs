@@ -10,10 +10,14 @@ namespace Utulek1.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        private readonly ILogger<AccountController> _logger;
+
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager,
+        ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _logger = logger;
         }
 
         // --- PŘIHLÁŠENÍ ---
@@ -36,6 +40,7 @@ namespace Utulek1.Controllers
 
                 if (result.Succeeded)
                 {
+                    _logger.LogInformation("Uživatel '{UserName}' se úspěšně přihlásil.", model.Username);
                     // Pokud existuje ReturnUrl (uživatel chtěl někam jít), vrátíme ho tam, jinak na Home
                     if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                         return Redirect(returnUrl);
@@ -44,6 +49,7 @@ namespace Utulek1.Controllers
                 }
                 else
                 {
+                    _logger.LogWarning("Neúspěšný pokus o přihlášení pro uživatele '{UserName}'.", model.Username);
                     ModelState.AddModelError(string.Empty, "Neplatné přihlašovací údaje.");
                     return View(model);
                 }
@@ -69,13 +75,16 @@ namespace Utulek1.Controllers
                     Email = model.Email,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
-                    EmailConfirmed = true // Pro zjednodušení rovnou potvrzujeme email
+                    EmailConfirmed = true 
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
+
+                    _logger.LogInformation("Nový uživatel se registroval: '{UserName}' (ID: {UserId}, Email: {Email}).",
+                        user.UserName, user.Id, user.Email);
                     // Automaticky přiřadíme roli "Customer"
                     await _userManager.AddToRoleAsync(user, "Customer");
 
@@ -86,6 +95,9 @@ namespace Utulek1.Controllers
 
                 foreach (var error in result.Errors)
                 {
+                    _logger.LogWarning("Registrace selhala pro uživatele '{UserName}'. Chyba: {ErrorCode} - {Description}",
+                        model.Username, error.Code, error.Description);
+
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
@@ -95,7 +107,12 @@ namespace Utulek1.Controllers
         // --- ODHLÁŠENÍ ---
         public async Task<IActionResult> Logout()
         {
+            var userName = User.Identity?.Name;
+
             await _signInManager.SignOutAsync();
+
+            _logger.LogInformation("Uživatel '{UserName}' se odhlásil.", userName);
+
             return RedirectToAction("Index", "Home");
         }
 

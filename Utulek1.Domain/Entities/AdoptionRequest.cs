@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Utulek1.Domain.Enums;
+using User = Utulek1.Domain.Entities.User;
 
 namespace Utulek1.Domain.Entities
 {

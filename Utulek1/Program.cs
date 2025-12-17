@@ -6,9 +6,15 @@ using Utulek1.Application.Services;
 using Utulek1.Domain.Entities;
 using Utulek1.Infrastructure;
 using Utulek1.Infrastructure.Repositories;
+using User = Utulek1.Domain.Entities.User;
+using Serilog;
 
+Serilog.Debugging.SelfLog.Enable(msg => Console.WriteLine($"[Serilog Error] {msg}"));
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, configuration) =>
+    configuration.ReadFrom.Configuration(context.Configuration));
 
 // Add services to the container.
 builder.Services.AddRazorPages();

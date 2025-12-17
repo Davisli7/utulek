@@ -14,13 +14,17 @@ namespace Utulek1.Controllers
         private readonly IAdoptionAppService _adoptionAppService; // Nová služba
         private readonly UserManager<User> _userManager;          // Pro získání ID uživatele
 
+        private readonly ILogger<AdoptionController> _logger;
+
         public AdoptionController(IAnimalAppService animalAppService,
                                   IAdoptionAppService adoptionAppService,
-                                  UserManager<User> userManager)
+                                  UserManager<User> userManager,
+                                  ILogger<AdoptionController> logger)
         {
             _animalAppService = animalAppService;
             _adoptionAppService = adoptionAppService;
             _userManager = userManager;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -98,25 +102,43 @@ namespace Utulek1.Controllers
         [Authorize] // Jen pro přihlášené
         public async Task<IActionResult> CreateRequest(int animalId)
         {
-            // Získáme aktuálního uživatele
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null) return Challenge();
-
-            // Pokusíme se vytvořit žádost
-            string? error = _adoptionAppService.Create(user.Id, animalId);
-
-            if (error != null)
+            try
             {
-                // Pokud nastala chyba (např. už má aktivní žádost), zobrazíme ji
-                TempData["ErrorMessage"] = error;
+                // 1. Získáme aktuálního uživatele
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null) return Challenge(); // Pokud není přihlášen, pošleme ho na login
+
+                // 2. Pokusíme se vytvořit žádost přes službu
+                // Poznámka: Předpokládám, že vaše metoda Create vrací string (chybovou hlášku) nebo null (úspěch)
+                string? error = _adoptionAppService.Create(user.Id, animalId);
+
+                if (error != null)
+                {
+                    // LOGOVÁNÍ VAROVÁNÍ (Business Logic Fail)
+                    _logger.LogWarning("Uživatel '{UserName}' (ID: {UserId}) se pokusil o adopci zvířete ID {AnimalId}, ale neprošlo to. Důvod: {Reason}",
+                                       user.UserName, user.Id, animalId, error);
+
+                    TempData["ErrorMessage"] = error;
+                }
+                else
+                {
+                    // LOGOVÁNÍ ÚSPĚCHU (Info)
+                    _logger.LogInformation("Uživatel '{UserName}' (ID: {UserId}) ÚSPĚŠNĚ vytvořil žádost o adopci zvířete ID {AnimalId}.",
+                                           user.UserName, user.Id, animalId);
+
+                    TempData["SuccessMessage"] = "Vaše žádost o adopci byla úspěšně vytvořena.";
+                    return RedirectToAction(nameof(MyAdoptions));
+                }
             }
-            else
+            catch (Exception ex)
             {
-                // Úspěch
-                TempData["SuccessMessage"] = "Vaše žádost o adopci byla úspěšně vytvořena.";
-                return RedirectToAction(nameof(MyAdoptions));
+                // LOGOVÁNÍ KRITICKÉ CHYBY (Error)
+                _logger.LogError(ex, "Neočekávaná chyba při vytváření žádosti o adopci (AnimalID: {AnimalId}) uživatelem.", animalId);
+
+                TempData["ErrorMessage"] = "Omlouváme se, došlo k neočekávané chybě. Zkuste to prosím později.";
             }
 
+            // Pokud došlo k chybě, vrátíme uživatele zpět na nabídku
             return RedirectToAction(nameof(Index));
         }
 
