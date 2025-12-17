@@ -11,6 +11,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utulek1.Domain", "Utulek1.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utulek1.Infrastructure", "Utulek1.Infrastructure\Utulek1.Infrastructure.csproj", "{6C4C7A93-9146-4B25-8CF9-3CCAE3D3A6EB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utulek1.Tests", "Utulek1.Tests\Utulek1.Tests.csproj", "{2665B996-B5E9-4B67-9348-8979E77607EE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1DE9CD3E-8C1A-47F1-A5AB-6A48A0CD863D} = {1DE9CD3E-8C1A-47F1-A5AB-6A48A0CD863D}
+		{B83B7E21-94BB-4C7B-B15A-8D43BFA17FAC} = {B83B7E21-94BB-4C7B-B15A-8D43BFA17FAC}
+		{EFB995B9-AAAE-4B76-B1AF-CF6F08CD2C38} = {EFB995B9-AAAE-4B76-B1AF-CF6F08CD2C38}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +40,10 @@ Global
 		{6C4C7A93-9146-4B25-8CF9-3CCAE3D3A6EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C4C7A93-9146-4B25-8CF9-3CCAE3D3A6EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C4C7A93-9146-4B25-8CF9-3CCAE3D3A6EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2665B996-B5E9-4B67-9348-8979E77607EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2665B996-B5E9-4B67-9348-8979E77607EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2665B996-B5E9-4B67-9348-8979E77607EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2665B996-B5E9-4B67-9348-8979E77607EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

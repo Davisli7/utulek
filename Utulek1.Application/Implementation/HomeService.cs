@@ -24,7 +24,6 @@ namespace Utulek1.Application.Implementation
         public CarouselAnimalViewModel GetIndexViewModel()
         {
             CarouselAnimalViewModel viewModel = new CarouselAnimalViewModel();
-            viewModel.Animals = _productAppService.Select();
             viewModel.Carousels = _carouselAppService.Select();
             return viewModel;
         }
