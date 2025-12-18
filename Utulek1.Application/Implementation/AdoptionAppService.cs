@@ -24,7 +24,8 @@ namespace Utulek1.Application.Implementation
         public IList<AdoptionRequest> Select(string? searchEmail = null, AdoptionRequestStatus? statusFilter = null)
         {
             IQueryable<AdoptionRequest> query = _dbContext.AdoptionRequests
-                                                .Include(ar => ar.Animal) 
+                                                .Include(ar => ar.Animal)
+                                                .ThenInclude(a => a.Photos)
                                                 .Include(ar => ar.User); 
 
             if (!string.IsNullOrEmpty(searchEmail))
@@ -44,6 +45,7 @@ namespace Utulek1.Application.Implementation
         {
             return _dbContext.AdoptionRequests
                              .Include(ar => ar.Animal)
+                             .ThenInclude(a => a.Photos)
                              .Where(ar => ar.UserID == userId)
                              .OrderByDescending(ar => ar.CreatedAt)
                              .ToList();
