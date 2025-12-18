@@ -8,61 +8,40 @@ using Utulek1.Application.Abstraction;
 using Utulek1.Domain.Entities;
 using Utulek1.Domain.Enums;
 using Utulek1.Infrastructure;
+using Utulek1.Infrastructure.Repositories;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Utulek1.Application.Implementation
 {
     public class AdoptionAppService : IAdoptionAppService
     {
-        private readonly UtulekDbContext _dbContext;
+        private readonly IAdoptionRepository _adoptionRepository;
+        private readonly IAnimalRepository _animalRepository;
 
-        public AdoptionAppService(UtulekDbContext dbContext)
+        public AdoptionAppService(IAdoptionRepository adoptionRepository, IAnimalRepository animalRepository)
         {
-            _dbContext = dbContext;
+            _adoptionRepository = adoptionRepository;
+            _animalRepository = animalRepository;
         }
 
         public IList<AdoptionRequest> Select(string? searchEmail = null, AdoptionRequestStatus? statusFilter = null)
         {
-            IQueryable<AdoptionRequest> query = _dbContext.AdoptionRequests
-                                                .Include(ar => ar.Animal)
-                                                .ThenInclude(a => a.Photos)
-                                                .Include(ar => ar.User); 
-
-            if (!string.IsNullOrEmpty(searchEmail))
-            {
-                query = query.Where(ar => ar.User.Email.Contains(searchEmail));
-            }
-
-            if (statusFilter.HasValue)
-            {
-                query = query.Where(ar => ar.Status == statusFilter.Value);
-            }
-
-            return query.OrderByDescending(ar => ar.CreatedAt).ToList();
+            return _adoptionRepository.Select(searchEmail, statusFilter);
         }
 
         public IList<AdoptionRequest> SelectForUser(int userId)
         {
-            return _dbContext.AdoptionRequests
-                             .Include(ar => ar.Animal)
-                             .ThenInclude(a => a.Photos)
-                             .Where(ar => ar.UserID == userId)
-                             .OrderByDescending(ar => ar.CreatedAt)
-                             .ToList();
+            return _adoptionRepository.SelectForUser(userId);
         }
 
         public string? Create(int userId, int animalId)
         {
-            bool hasActiveRequest = _dbContext.AdoptionRequests.Any(ar =>
-                ar.UserID == userId &&
-                (ar.Status == AdoptionRequestStatus.Pending || ar.Status == AdoptionRequestStatus.Approved));
-
-            if (hasActiveRequest)
+            if (_adoptionRepository.HasActiveRequest(userId))
             {
                 return "Můžete mít pouze jednu aktivní žádost o adopci.";
             }
 
-            var animal = _dbContext.Animals.Find(animalId);
+            var animal = _animalRepository.Select(animalId);
             if (animal == null || animal.Status != "K adopci")
             {
                 return "Toto zvíře již není k dispozici pro adopci.";
@@ -76,22 +55,16 @@ namespace Utulek1.Application.Implementation
                 CreatedAt = DateTime.Now
             };
 
-            _dbContext.AdoptionRequests.Add(request);
-            _dbContext.SaveChanges();
-
-            return null; 
+            _adoptionRepository.Create(request);
+            return null;
         }
 
         public void UpdateStatus(int requestId, AdoptionRequestStatus newStatus)
         {
-            var request = _dbContext.AdoptionRequests
-                                    .Include(ar => ar.Animal)
-                                    .FirstOrDefault(ar => ar.AdoptionRequestID == requestId);
-
+            var request = _adoptionRepository.GetById(requestId);
             if (request != null)
             {
                 request.Status = newStatus;
-
 
                 if (newStatus == AdoptionRequestStatus.Approved)
                 {
@@ -102,30 +75,21 @@ namespace Utulek1.Application.Implementation
                     if (request.Animal != null) request.Animal.Status = "Adoptováno";
                 }
                 else if ((newStatus == AdoptionRequestStatus.Rejected || newStatus == AdoptionRequestStatus.Cancelled)
-                         && request.Animal.Status == "Zarezervováno")
+                         && request.Animal != null && request.Animal.Status == "Zarezervováno")
                 {
                     request.Animal.Status = "K adopci";
                 }
 
-                _dbContext.SaveChanges();
+                _adoptionRepository.Update(request);
             }
         }
 
         public bool CancelRequest(int requestId, int userId)
         {
-            var request = _dbContext.AdoptionRequests
-                                  .Include(ar => ar.Animal)
-                                  .FirstOrDefault(ar => ar.AdoptionRequestID == requestId);
+            var request = _adoptionRepository.GetById(requestId);
 
-            if (request == null || request.UserID != userId)
-            {
-                return false; 
-            }
-
-            if (request.Status == AdoptionRequestStatus.Completed || request.Status == AdoptionRequestStatus.Rejected)
-            {
-                return false;
-            }
+            if (request == null || request.UserID != userId) return false;
+            if (request.Status == AdoptionRequestStatus.Completed || request.Status == AdoptionRequestStatus.Rejected) return false;
 
             request.Status = AdoptionRequestStatus.Cancelled;
 
@@ -134,19 +98,13 @@ namespace Utulek1.Application.Implementation
                 request.Animal.Status = "K adopci";
             }
 
-            _dbContext.SaveChanges();
+            _adoptionRepository.Update(request);
             return true;
         }
 
         public HashSet<int> GetActiveAnimalIdsForUser(int userId)
         {
-            return _dbContext.AdoptionRequests
-                             .Where(ar => ar.UserID == userId &&
-                                         (ar.Status == AdoptionRequestStatus.Pending ||
-                                          ar.Status == AdoptionRequestStatus.Approved))
-                             .Select(ar => ar.AnimalID)
-                             .ToHashSet();
+            return _adoptionRepository.GetActiveAnimalIdsForUser(userId);
         }
-
     }
 }

@@ -8,6 +8,8 @@ using Utulek1.Infrastructure;
 using Utulek1.Infrastructure.Repositories;
 using User = Utulek1.Domain.Entities.User;
 using Serilog;
+using Utulek1.Infrastructure.Abstraction;
+using Utulek1.Infrastructure.Implementation;
 
 Serilog.Debugging.SelfLog.Enable(msg => Console.WriteLine($"[Serilog Error] {msg}"));
 
@@ -45,6 +47,8 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Account/AccessDenied";
 });
 
+
+builder.Services.AddScoped<IAdoptionRepository, AdoptionRepository>();
 builder.Services.AddScoped<ICarouselRepository, CarouselRepository>();
 
 builder.Services.AddScoped<ISystemLogRepository, SystemLogRepository>();
