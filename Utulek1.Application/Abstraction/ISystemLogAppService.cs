@@ -9,7 +9,7 @@ namespace Utulek1.Application.Abstraction
 {
     public interface ISystemLogAppService
     {
-        IList<SystemLog> Select();
+        IList<SystemLog> Select(string? searchTerm = null, string? level = null);
         bool Delete(int id);
     }
 }

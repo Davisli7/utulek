@@ -8,21 +8,26 @@
 <div class="container-fluid">
     <h1 class="mb-4">Systémové logy (Audit)</h1>
 
-    <div class="card shadow-sm mb-4">
-        <div class="card-body py-3">
-            <form method="get" class="row g-2 align-items-center">
-                <div class="col-auto fw-bold">Zobrazit úroveň:</div>
-                <div class="col-auto">
-                    <select name="levelFilter" class="form-select form-select-sm" onchange="this.form.submit()">
-                        <option value="All" selected="@(ViewBag.CurrentLevelFilter == "All")">Všechno</option>
-                        <option value="Information" selected="@(ViewBag.CurrentLevelFilter == "Information")">Information</option>
-                        <option value="Warning" selected="@(ViewBag.CurrentLevelFilter == "Warning")">Warning</option>
-                        <option value="Error" selected="@(ViewBag.CurrentLevelFilter == "Error")">Error</option>
-                    </select>
-                </div>
-            </form>
+    <form method="get" asp-action="Index" class="row g-3 mb-4">
+        <div class="col-md-4">
+            <input type="text" name="searchTerm" value="@ViewBag.CurrentSearchTerm" class="form-control" placeholder="Hledat ve zprávě...">
         </div>
-    </div>
+        <div class="col-md-3">
+            <select name="level" class="form-select">
+                <!- Tady je ten trik s podmínkou ->
+                <option value="All" selected="@(ViewBag.CurrentLevel == "All" ? "selected" : null)">Všechny úrovně</option>
+                <option value="Information" selected="@(ViewBag.CurrentLevel == "Information" ? "selected" : null)">Information</option>
+                <option value="Warning" selected="@(ViewBag.CurrentLevel == "Warning" ? "selected" : null)">Warning</option>
+                <option value="Error" selected="@(ViewBag.CurrentLevel == "Error" ? "selected" : null)">Error</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Filtrovat</button>
+        </div>
+        <div class="col-md-2">
+            <a asp-action="Index" class="btn btn-outline-secondary w-100">Zrušit filtr</a>
+        </div>
+    </form>
 
     <div class="card shadow">
         <div class="table-responsive">

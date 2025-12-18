@@ -9,7 +9,7 @@ namespace Utulek1.Infrastructure.Repositories
 {
     public interface ISystemLogRepository
     {
-        IList<SystemLog> Select();
+        IList<SystemLog> Select(string? searchTerm = null, string? level = null);
         bool Delete(int id);
     }
 }

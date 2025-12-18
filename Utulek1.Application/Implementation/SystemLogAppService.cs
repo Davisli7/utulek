@@ -18,9 +18,9 @@ namespace Utulek1.Application.Implementation
             _systemLogRepository = systemLogRepository;
         }
 
-        public IList<SystemLog> Select()
+        public IList<SystemLog> Select(string? searchTerm = null, string? level = null)
         {
-            return _systemLogRepository.Select();
+            return _systemLogRepository.Select(searchTerm, level);
         }
 
         public bool Delete(int id)

@@ -18,9 +18,13 @@ namespace Utulek1.Areas.Admin.Controllers
             _logAppService = logAppService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string? searchTerm, string? level)
         {
-            var logs = _logAppService.Select();
+
+            ViewBag.CurrentSearchTerm = searchTerm;
+            ViewBag.CurrentLevel = level;
+
+            var logs = _logAppService.Select(searchTerm, level);
             return View(logs);
         }
 
