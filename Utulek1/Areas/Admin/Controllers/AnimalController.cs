@@ -41,6 +41,15 @@ namespace Utulek1.Areas.Admin.Controllers
             ViewBag.SpeciesList = new SelectList(_animalAppService.SelectSpecies(), "SpeciesID", "Name");
             ViewBag.BreedList = new SelectList(_animalAppService.SelectBreeds(), "BreedID", "Name");
 
+            ViewBag.AllBreeds = _animalAppService.SelectBreeds()
+                .Select(b => new
+                {
+                    breedID = b.BreedID,   // Malá písmena, ať to ladí s JavaScriptem
+                    name = b.Name,
+                    speciesID = b.SpeciesID
+                })
+                .ToList();
+
             return View();
         }
 

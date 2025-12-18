@@ -80,7 +80,99 @@
         <a asp-action="Select" class="btn btn-secondary btn-lg ms-2">Zpět na seznam</a>
     </div>
 </form>
-@section Scripts
-{
+
+@section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(document).ready(function () {
+            // 1. Načteme si data z C# do JavaScriptové proměnné
+            // Serializace převede C# List<Breed> na JSON pole objektů
+            var allBreeds = @Json.Serialize(ViewBag.AllBreeds);
+
+            // Uložíme si odkazy na elementy (selecty)
+            var $speciesSelect = $("#SpeciesID");
+            var $breedSelect = $("#BreedID");
+
+            // Uložíme si původní html obsah selectu pro plemena (abychom tam mohli vracet defaultní možnost)
+            var defaultBreedOption = '<option value="">-- Vyberte plemeno --</option>';
+
+            // --- FUNKCE A: Když se změní DRUH -> Vyfiltrovat PLEMENA ---
+            $speciesSelect.change(function () {
+                var selectedSpeciesId = $(this).val();
+
+                // Uložíme si aktuálně vybrané plemeno (pokud to jde), abychom ho neztratili při překreslení
+                var currentBreedId = $breedSelect.val();
+
+                // Vyprázdníme seznam plemen a dáme tam zpět výchozí možnost
+                $breedSelect.empty();
+                $breedSelect.append(defaultBreedOption);
+
+                // Projdeme všechna plemena a přidáme jen ta, která odpovídají vybranému druhu
+                $.each(allBreeds, function (index, breed) {
+                    // Logika:
+                    // 1. Pokud není vybrán žádný druh (selectedSpeciesId je prázdné), neukazujeme nic (nebo všechna, záleží na preferenci).
+                    //    Zde: Pokud není vybrán druh, ukážeme všechna (aby uživatel mohl začít výběrem plemene).
+                    // 2. Pokud ID druhu souhlasí.
+                    // POZOR: V JSONu jsou názvy vlastností malým písmem (camelCase) -> breed.speciesID
+
+                    if (!selectedSpeciesId || breed.speciesID == selectedSpeciesId) {
+                        $breedSelect.append('<option value="' + breed.breedID + '">' + breed.name + '</option>');
+                    }
+                });
+
+                // Pokud původně vybrané plemeno stále existuje v novém seznamu (tzn. patří k vybranému druhu), znovu ho vybereme.
+                // Pokud neexistuje (uživatel změnil Psa na Kočku, ale měl vybraného Jezevčíka), výběr se zruší (zůstane "Vyberte plemeno").
+                if (currentBreedId) {
+                    // Zkontrolujeme, jestli taková option v selectu existuje
+                    if ($breedSelect.find("option[value='" + currentBreedId + "']").length > 0) {
+                        $breedSelect.val(currentBreedId);
+                    }
+                }
+            });
+
+
+            // --- FUNKCE B: Když se změní PLEMENO -> Automaticky nastavit DRUH ---
+            $breedSelect.change(function () {
+                var selectedBreedId = $(this).val();
+
+                if (selectedBreedId) {
+                    // Najdeme plemeno v našem seznamu dat
+                    // (používáme == místo ===, protože hodnota ze selectu je string, ale v JSONu může být číslo)
+                    var selectedBreed = allBreeds.find(b => b.breedID == selectedBreedId);
+
+                    if (selectedBreed) {
+                        // Získáme aktuální hodnotu druhu
+                        var currentSpeciesId = $speciesSelect.val();
+
+                        // Pokud se druh liší od toho, co má plemeno, změníme ho
+                        if (currentSpeciesId != selectedBreed.speciesID) {
+                            $speciesSelect.val(selectedBreed.speciesID);
+
+                            // DŮLEŽITÉ: Protože jsme programově změnili Druh, musíme zavolat 'change' i na něm,
+                            // aby se případně aktualizovaly další věci (nebo aby se znovu "pročistil" seznam plemen,
+                            // i když v tomto směru to není striktně nutné, udržuje to konzistenci).
+
+                            // Ale pozor: Pokud zavoláme $speciesSelect.change(), ta funkce výše (Funkce A)
+                            // nám překreslí seznam plemen. Musíme zajistit, aby se nám tam to naše plemeno udrželo.
+                            // Funkce A už má logiku pro zachování 'currentBreedId', takže by to mělo projít hladce.
+
+                            $speciesSelect.trigger('change');
+
+                            // Pro jistotu znovu nastavíme plemeno (kdyby ho trigger smazal)
+                            $breedSelect.val(selectedBreedId);
+                        }
+                    }
+                }
+            });
+
+            // --- INICIALIZACE ---
+            // Pokud stránku načítáme a už je něco vybráno (např. při Editaci nebo chybě validace),
+            // chceme spustit filtraci, aby seznam plemen odpovídal druhu.
+            if ($speciesSelect.val()) {
+                // Spustíme filtraci, ale nechceme ztratit vybrané plemeno (pokud ho server poslal)
+                $speciesSelect.trigger('change');
+            }
+        });
+    </script>
 }
