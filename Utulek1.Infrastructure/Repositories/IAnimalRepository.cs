@@ -15,5 +15,14 @@ namespace Utulek1.Infrastructure.Repositories
         Task UpdateAsync(Animal animal);
         Task DeleteAsync(int id);
         bool DeletePhoto(int photoId);
+
+        IList<Animal> Select(string? searchName = null, int? speciesId = null, string? status = null);
+        Animal? Select(int id);
+        void Create(Animal animal);
+        void Update(Animal animal);
+        bool Delete(int id);
+
+        IList<Species> SelectSpecies();
+        IList<Breed> SelectBreeds();
     }
 }

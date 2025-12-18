@@ -45,6 +45,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Account/AccessDenied";
 });
 
+builder.Services.AddScoped<ICarouselRepository, CarouselRepository>();
 
 builder.Services.AddScoped<ISystemLogRepository, SystemLogRepository>();
 builder.Services.AddScoped<ISystemLogAppService, SystemLogAppService>();

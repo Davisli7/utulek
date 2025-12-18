@@ -15,86 +15,53 @@ namespace Utulek1.Application.Implementation
 {
     public class AnimalAppService : IAnimalAppService
     {
-        UtulekDbContext _utulekDbContext;
         IFileUploadService _fileUploadService;
         private readonly IAnimalRepository _animalRepository;
 
-        public AnimalAppService(UtulekDbContext eshopDbContext, IFileUploadService fileUploadService, IAnimalRepository animalRepository)
+        public AnimalAppService( IFileUploadService fileUploadService, IAnimalRepository animalRepository)
         {
-            _utulekDbContext = eshopDbContext ?? throw new ArgumentNullException(nameof(eshopDbContext));
             _fileUploadService = fileUploadService ?? throw new ArgumentNullException(nameof(fileUploadService));
             _animalRepository = animalRepository;
         }
 
         public IList<Animal> Select(string? searchName = null, int? speciesId = null, string? status = null)
         {
-            IQueryable<Animal> query = _utulekDbContext.Animals
-                                       .Include(a => a.Species)
-                                       .Include(a => a.Breed)
-                                       .Include(a => a.Photos);
-            if (!string.IsNullOrEmpty(searchName))
-            {
-                query = query.Where(a => a.Name.Contains(searchName));
-            }
-
-            if (speciesId.HasValue)
-            {
-                query = query.Where(a => a.SpeciesID == speciesId.Value);
-            }
-
-            if (!string.IsNullOrEmpty(status) && status != "All")
-            {
-                query = query.Where(a => a.Status == status);
-            }
-
-            return query.OrderByDescending(a => a.AnimalID).ToList();
+            return _animalRepository.Select(searchName, speciesId, status);
         }
 
         public Animal? Select(int id)
         {
-            return _utulekDbContext.Animals
-                                   .Include(a => a.Photos)
-                                   .Include(a => a.Breed)    
-                                   .Include(a => a.Species)
-                                   .FirstOrDefault(a => a.AnimalID == id);
+            return _animalRepository.Select(id);
         }
-
 
         public IList<Species> SelectSpecies()
         {
-            return _utulekDbContext.Species.ToList();
+            return _animalRepository.SelectSpecies();
         }
 
         public IList<Breed> SelectBreeds()
         {
-            return _utulekDbContext.Breeds.ToList();
+            return _animalRepository.SelectBreeds();
         }
 
         public void Create(Animal animal, IEnumerable<IFormFile> uploadedFiles)
         {
-            if (animal == null) throw new ArgumentNullException(nameof(animal));
-
             if (uploadedFiles != null && uploadedFiles.Any())
             {
                 animal.Photos ??= new List<Photo>();
-
                 foreach (var file in uploadedFiles)
                 {
                     string imageSrc = _fileUploadService.FileUpload(file, Path.Combine("img", "animals"));
-
                     animal.Photos.Add(new Photo { PhotoURL = imageSrc });
                 }
             }
 
-            _utulekDbContext.Animals.Add(animal);
-            _utulekDbContext.SaveChanges();
+            _animalRepository.Create(animal);
         }
 
         public void Update(Animal animal, IEnumerable<IFormFile> uploadedFiles)
         {
-            Animal? existingAnimal = _utulekDbContext.Animals
-                                                     .Include(a => a.Photos)
-                                                     .FirstOrDefault(a => a.AnimalID == animal.AnimalID);
+            var existingAnimal = _animalRepository.Select(animal.AnimalID);
 
             if (existingAnimal != null)
             {
@@ -108,18 +75,17 @@ namespace Utulek1.Application.Implementation
 
                 if (uploadedFiles != null && uploadedFiles.Any())
                 {
-                    if (existingAnimal.Photos == null)
-                        existingAnimal.Photos = new List<Photo>();
-
+                    existingAnimal.Photos ??= new List<Photo>();
                     foreach (var file in uploadedFiles)
                     {
                         string imageSrc = _fileUploadService.FileUpload(file, Path.Combine("img", "animals"));
-
                         existingAnimal.Photos.Add(new Photo { PhotoURL = imageSrc });
                     }
                 }
 
-                _utulekDbContext.SaveChanges();
+                
+
+                _animalRepository.Update(existingAnimal);
             }
         }
 
@@ -130,19 +96,7 @@ namespace Utulek1.Application.Implementation
 
         public bool Delete(int id)
         {
-            bool deleted = false;
-
-            Animal? product
-                = _utulekDbContext.Animals.FirstOrDefault(Animal => Animal.AnimalID == id);
-
-            if (product != null)
-            {
-                _utulekDbContext.Animals.Remove(product);
-                _utulekDbContext.SaveChanges();
-                deleted = true;
-            }
-
-            return deleted;
+            return _animalRepository.Delete(id);
         }
     }
 }

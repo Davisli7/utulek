@@ -6,22 +6,22 @@ using System.Threading.Tasks;
 using Utulek1.Application.Abstraction;
 using Utulek1.Domain.Entities;
 using Utulek1.Infrastructure;
+using Utulek1.Infrastructure.Repositories;
 
 namespace Utulek1.Application.Implementation
 {
     public class CarouselAppService : ICarouselAppService
     {
-        UtulekDbContext _utulekDbContext;
-
-        public CarouselAppService(UtulekDbContext utulekDbContext)
+        private readonly ICarouselRepository _carouselRepository;
+        public CarouselAppService(ICarouselRepository carouselRepository)
         {
-            _utulekDbContext = utulekDbContext;
+            _carouselRepository = carouselRepository;
         }
 
 
         public IList<Carousel> Select()
         {
-            return _utulekDbContext.Carousels.ToList();
+            return _carouselRepository.Select();
         }
     }
 }
